@@ -10,42 +10,46 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html, body { background: #fff; color: #0a0a0a; font-family: 'DM Mono', monospace; overflow-x: hidden; cursor: crosshair; }
 
-/* ── INTRO OVERLAY ── */
+/* ── INTRO ── */
 #intro {
 position: fixed; inset: 0; z-index: 9000;
 background: #fff;
-display: flex; flex-direction: column; align-items: flex-start; justify-content: center;
-padding: 48px;
-pointer-events: none;
+display: flex; align-items: flex-start; justify-content: flex-start;
+padding: clamp(32px, 6vw, 72px);
+transition: opacity .6s ease;
 }
-#intro.done { opacity: 0; transition: opacity .5s ease .3s; pointer-events: none; }
-#intro-lines { display: flex; flex-direction: column; gap: 2px; }
-.il {
+#intro.hide { opacity: 0; pointer-events: none; }
+#intro-out { display: flex; flex-direction: column; gap: 0; }
+
+.tl {
 font-family: ‘DM Mono’, monospace;
-font-size: clamp(11px, 1.5vw, 14px);
-letter-spacing: .05em;
+font-size: clamp(12px, 1.6vw, 15px);
+letter-spacing: .04em;
 color: #0a0a0a;
-overflow: hidden;
-white-space: nowrap;
-width: 0;
-opacity: 0;
+line-height: 1.9;
+height: 0; overflow: hidden; opacity: 0;
 }
-.il.typed { opacity: 1; animation: typeIn var(–dur) steps(var(–steps), end) forwards; }
-@keyframes typeIn { from { width: 0; } to { width: var(–w); } }
-.il .cursor-blink {
-display: inline-block; width: 8px; height: 1em;
-background: #0a0a0a; margin-left: 2px;
+.tl.muted { color: #bbb; }
+.tl.pink  { color: #d946ef; }
+.tl.gap   { height: 1.2em; opacity: 1; }
+.tl.big   {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: clamp(80px, 18vw, 240px);
+line-height: .88; letter-spacing: -.01em;
+color: #0a0a0a;
+}
+.tl.show  { opacity: 1; height: auto; }
+
+/* blinking cursor */
+.cur {
+display: inline-block;
+width: .55em; height: 1.1em;
+background: currentColor;
 vertical-align: text-bottom;
-animation: cblink .5s step-end infinite;
+margin-left: .1em;
+animation: blink .7s step-end infinite;
 }
-@keyframes cblink { 0%,100%{opacity:1} 50%{opacity:0} }
-.il.dim { color: #bbb; }
-.il.ac { color: #d946ef; }
-#intro-cursor-final {
-display: inline-block; width: 10px; height: 16px;
-background: #d946ef; margin-left: 4px; vertical-align: text-bottom;
-animation: cblink .5s step-end infinite;
-}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
 /* body locked during intro */
 body.locked { overflow: hidden; }
@@ -394,12 +398,12 @@ transition: opacity .2s, transform .2s;
 </style>
 
 </head>
-<body class="locked">
+<body>
 
-<!-- INTRO OVERLAY -->
+<!-- INTRO -->
 
 <div id="intro">
-  <div id="intro-lines"></div>
+  <div id="intro-out"></div>
 </div>
 
 <!-- NAV -->
@@ -627,90 +631,7 @@ transition: opacity .2s, transform .2s;
 </div>
 
 <script>
-// ── INTRO TYPEWRITER ──
-(function(){
-  const lines = [
-    { text: 'S.N.O.B.AI — Network-Operated Brain', cls: 'dim' },
-    { text: '', cls: '' },
-    { text: 'Initialisiere KI...', cls: 'dim' },
-    { text: 'Sprachmodell geladen.', cls: 'dim' },
-    { text: 'Verbindung hergestellt.', cls: 'dim' },
-    { text: '', cls: '' },
-    { text: 'Bereit.', cls: 'ac' },
-    { text: '', cls: '' },
-    { text: 'SNOB', cls: 'big' },
-  ];
-
-  const container = document.getElementById('intro-lines');
-  let delay = 0;
-
-  lines.forEach((line, idx) => {
-    const el = document.createElement('div');
-    el.className = 'il' + (line.cls ? ' ' + line.cls : '');
-
-    if (line.cls === 'big') {
-      el.style.fontFamily = "'Bebas Neue', sans-serif";
-      el.style.fontSize = 'clamp(72px, 18vw, 220px)';
-      el.style.lineHeight = '1';
-      el.style.letterSpacing = '-.01em';
-      el.style.color = '#0a0a0a';
-    }
-
-    if (!line.text) {
-      el.innerHTML = '&nbsp;';
-      el.style.opacity = '1';
-      el.style.width = '10px';
-      container.appendChild(el);
-      delay += 80;
-      return;
-    }
-
-    const chars = line.text.length;
-    const speed = line.cls === 'big' ? 60 : 28;
-    const dur = chars * speed + 'ms';
-
-    el.style.setProperty('--dur', dur);
-    el.style.setProperty('--steps', chars);
-    // measure width after appending
-    el.textContent = line.text;
-    el.style.opacity = '0';
-    el.style.width = '0';
-    container.appendChild(el);
-
-    // measure
-    el.style.opacity = '1';
-    const w = el.scrollWidth + 'px';
-    el.style.opacity = '0';
-    el.style.width = '0';
-    el.style.setProperty('--w', w);
-
-    const isLast = idx === lines.length - 1;
-
-    setTimeout(() => {
-      el.classList.add('typed');
-      if (isLast) {
-        // add blinking cursor to last line
-        const cur = document.createElement('span');
-        cur.id = 'intro-cursor-final';
-        el.appendChild(cur);
-
-        // after pause, fade out and reveal page
-        setTimeout(() => {
-          document.getElementById('intro').classList.add('done');
-          document.body.classList.remove('locked');
-          setTimeout(() => {
-            const intro = document.getElementById('intro');
-            if (intro) intro.remove();
-          }, 900);
-        }, 900);
-      }
-    }, delay);
-
-    delay += chars * speed + (line.cls === 'big' ? 200 : 120);
-  });
-})();
-
-// ── FIRST CALL ──
+// FIRST CALL
 function fcCall(){
   const num = document.getElementById('fcNum').value.trim();
   if(!num || num.length < 8){
@@ -802,6 +723,75 @@ function toggleChat(){
     showT();setTimeout(()=>{rmT();addM('Hey — ich bin SNOB. Wie kann ich helfen?','bot');},450);
   }
 }
+
+// ── INTRO TYPEWRITER ──
+(function() {
+  document.body.style.overflow = 'hidden';
+
+  var LINES = [
+    { t: 'S.N.O.B.AI',              c: 'muted' },
+    { t: '',                          c: 'gap'   },
+    { t: 'Initialisiere KI...',      c: 'muted' },
+    { t: 'Sprachmodell geladen.',    c: 'muted' },
+    { t: 'Verbindung aktiv.',        c: 'muted' },
+    { t: '',                          c: 'gap'   },
+    { t: 'Bereit.',                  c: 'pink'  },
+    { t: '',                          c: 'gap'   },
+    { t: 'SNOB',                     c: 'big'   },
+  ];
+
+  var container = document.getElementById('intro-out');
+  var totalDelay = 400;
+
+  LINES.forEach(function(line, i) {
+    var el = document.createElement('div');
+    el.className = 'tl ' + line.c;
+
+    if (line.c === 'gap') {
+      container.appendChild(el);
+      return;
+    }
+
+    container.appendChild(el);
+    var isLast = (i === LINES.length - 1);
+    var speed  = (line.c === 'big') ? 120 : 38;
+    var text   = line.t;
+    var delay  = totalDelay;
+
+    totalDelay += text.length * speed + 180;
+
+    setTimeout(function() {
+      el.classList.add('show');
+      el.textContent = '';
+
+      // add cursor
+      var cur = document.createElement('span');
+      cur.className = 'cur';
+      el.appendChild(cur);
+
+      var idx = 0;
+      var iv = setInterval(function() {
+        if (idx < text.length) {
+          cur.insertAdjacentText('beforebegin', text[idx]);
+          idx++;
+        } else {
+          clearInterval(iv);
+          if (!isLast) {
+            cur.remove(); // remove cursor from finished lines
+          } else {
+            // last line done — wait then close
+            setTimeout(function() {
+              var intro = document.getElementById('intro');
+              intro.classList.add('hide');
+              document.body.style.overflow = '';
+              setTimeout(function() { intro.remove(); }, 700);
+            }, 1000);
+          }
+        }
+      }, speed);
+    }, delay);
+  });
+})();
 </script>
 
 </body>
