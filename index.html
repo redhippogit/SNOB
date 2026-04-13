@@ -8,474 +8,465 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html { background: #fff; }
-body {
-  background: #fff;
-  color: #0a0a0a;
-  font-family: 'DM Mono', monospace;
-  overflow-x: hidden;
-  cursor: crosshair;
-}
+html, body { background: #fff; color: #0a0a0a; font-family: 'DM Mono', monospace; overflow-x: hidden; cursor: crosshair; }
 
-/* ── HEADER ── */
-header {
+/* NAV */
+nav {
 position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+padding: 24px 40px;
 display: flex; justify-content: space-between; align-items: center;
-padding: 24px 32px;
-mix-blend-mode: multiply;
 }
-.logo {
-font-family: ‘Bebas Neue’, sans-serif;
-font-size: 18px; letter-spacing: .4em;
-color: #0a0a0a;
-}
-.header-r {
+.n-logo { font-family: ‘Bebas Neue’, sans-serif; font-size: 16px; letter-spacing: .5em; }
+.n-cta {
 font-size: 9px; letter-spacing: .2em; text-transform: uppercase;
-color: #aaa; cursor: pointer; transition: color .2s;
+color: #bbb; background: none; border: none; cursor: pointer;
+transition: color .2s;
 }
-.header-r:hover { color: #0a0a0a; }
+.n-cta:hover { color: #0a0a0a; }
 
-/* ── SECTIONS ── */
-.block {
-width: 100%; min-height: 100vh;
-display: flex; align-items: center; justify-content: center;
-border-bottom: 1px solid #eee;
-position: relative; overflow: hidden;
+/* HERO — fullscreen, tap expands */
+#hero {
+height: 100vh; display: flex; align-items: center; justify-content: center;
+border-bottom: 1px solid #f0f0f0; position: relative; overflow: hidden;
 cursor: pointer;
 }
-
-/* HERO */
-#b1 { background: #fff; }
-.big-word {
+#hero-word {
 font-family: ‘Bebas Neue’, sans-serif;
-font-size: clamp(80px, 20vw, 280px);
-line-height: .85;
-letter-spacing: -.02em;
-text-align: center;
-transition: font-size .5s cubic-bezier(0.16,1,.3,1), color .3s;
+font-size: clamp(100px, 22vw, 320px);
+line-height: 1; letter-spacing: -.02em;
+transition: font-size .6s cubic-bezier(.16,1,.3,1);
 user-select: none;
-padding: 20px;
 }
-#b1:hover .big-word { font-size: clamp(120px, 28vw, 400px); color: #0a0a0a; }
-#b1.expanded .big-word { font-size: clamp(120px, 28vw, 400px); }
-
-.sub-appear {
-position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
-font-size: 9px; letter-spacing: .3em; text-transform: uppercase; color: #bbb;
-opacity: 0; transition: opacity .4s .2s; white-space: nowrap;
+#hero.big #hero-word { font-size: clamp(160px, 38vw, 520px); }
+#hero-hint {
+position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+font-size: 9px; letter-spacing: .25em; text-transform: uppercase; color: #ccc;
+white-space: nowrap;
+opacity: 1; transition: opacity .3s;
 }
-#b1:hover .sub-appear { opacity: 1; }
+#hero.big #hero-hint { opacity: 0; }
+#hero-sub {
+position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+font-size: 9px; letter-spacing: .25em; text-transform: uppercase; color: #999;
+white-space: nowrap;
+opacity: 0; transition: opacity .3s .2s;
+}
+#hero.big #hero-sub { opacity: 1; }
 
-/* TAGLINE */
-#b2 { background: #0a0a0a; cursor: pointer; }
-.tagline {
+/* STATEMENT */
+#stmt {
+height: 100vh; display: flex; align-items: center; justify-content: center;
+border-bottom: 1px solid #f0f0f0; cursor: pointer; padding: 40px;
+}
+#stmt-txt {
 font-family: ‘Bebas Neue’, sans-serif;
-font-size: clamp(40px, 8vw, 120px);
-line-height: .9; color: #fff;
-text-align: center; padding: 40px 48px;
-transition: color .3s; user-select: none;
-max-width: 900px;
+font-size: clamp(44px, 9vw, 130px);
+line-height: .9; text-align: center;
+transition: color .3s;
+user-select: none;
 }
-#b2:hover .tagline { color: #d946ef; }
-.tagline .dim { color: #333; transition: color .3s; }
-#b2:hover .tagline .dim { color: #a21caf; }
+#stmt-txt .g { color: #ddd; transition: color .3s; }
+#stmt:hover #stmt-txt { color: #0a0a0a; }
+#stmt:hover #stmt-txt .g { color: #0a0a0a; }
 
-/* PLATFORM */
-#b3 { background: #fff; min-height: auto; display: block; padding: 0; }
-.rows { width: 100%; }
-.row-item {
-display: flex; align-items: center; justify-content: space-between;
-padding: 28px 48px;
-border-bottom: 1px solid #eee;
-cursor: pointer; transition: background .2s, padding .3s cubic-bezier(0.16,1,.3,1);
+/* 4 PILLARS — tap each to reveal desc */
+#pillars { border-bottom: 1px solid #f0f0f0; }
+.pill {
+display: flex; align-items: stretch;
+border-bottom: 1px solid #f0f0f0; cursor: pointer;
+transition: background .25s;
 overflow: hidden;
 }
-.row-item:hover { background: #0a0a0a; padding-left: 64px; }
-.row-item:last-child { border-bottom: none; }
-.row-num { font-size: 9px; letter-spacing: .2em; color: #ccc; width: 40px; flex-shrink: 0; transition: color .2s; }
-.row-item:hover .row-num { color: #444; }
-.row-title {
+.pill:last-child { border-bottom: none; }
+.pill:hover { background: #0a0a0a; }
+.pill-n {
+width: 80px; flex-shrink: 0;
+display: flex; align-items: center; justify-content: center;
+font-size: 9px; letter-spacing: .2em; color: #ddd;
+border-right: 1px solid #f0f0f0; transition: border-color .25s, color .25s;
+padding: 32px 0;
+}
+.pill:hover .pill-n { color: #333; border-color: #1a1a1a; }
+.pill-body { flex: 1; padding: 32px 40px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.pill-title {
 font-family: ‘Bebas Neue’, sans-serif;
-font-size: clamp(28px, 4vw, 56px);
-letter-spacing: .03em; flex: 1; padding: 0 32px;
-transition: color .2s;
+font-size: clamp(32px, 5vw, 64px); letter-spacing: .02em;
+transition: color .25s; white-space: nowrap;
 }
-.row-item:hover .row-title { color: #fff; }
-.row-desc {
-font-size: 11px; color: #aaa; max-width: 260px; line-height: 1.7;
-transition: color .2s;
+.pill:hover .pill-title { color: #fff; }
+.pill-desc {
+font-size: 10px; letter-spacing: .1em; color: #bbb; max-width: 220px;
+line-height: 1.8; text-align: right;
+transition: color .25s;
 }
-.row-item:hover .row-desc { color: #555; }
-.row-arr { font-size: 18px; color: #eee; transition: color .2s, transform .3s; flex-shrink: 0; margin-left: 24px; }
-.row-item:hover .row-arr { color: #d946ef; transform: translateX(8px); }
-@media(max-width:768px){ .row-item { padding: 20px 24px; } .row-desc { display: none; } .row-title { padding: 0 16px; } }
+.pill:hover .pill-desc { color: #555; }
+@media(max-width:640px){ .pill-desc { display: none; } .pill-body { padding: 24px 20px; } .pill-n { width: 48px; } }
 
 /* CALC */
-#b4 { background: #f7f7f7; min-height: 100vh; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 0; padding: 80px 48px; cursor: default; }
-.calc-label { font-size: 9px; letter-spacing: .3em; text-transform: uppercase; color: #aaa; margin-bottom: 8px; align-self: flex-start; }
-.calc-title {
-font-family: ‘Bebas Neue’, sans-serif;
-font-size: clamp(48px, 8vw, 110px); line-height: .9;
-margin-bottom: 64px; align-self: flex-start;
+#calc {
+padding: 80px 40px; border-bottom: 1px solid #f0f0f0;
+display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
 }
-.calc-inner { width: 100%; max-width: 700px; }
-.c-row { margin-bottom: 40px; }
-.c-lbl { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: #aaa; margin-bottom: 16px; display: flex; justify-content: space-between; }
-.c-val { color: #0a0a0a; font-size: 13px; }
+@media(max-width:768px){ #calc { grid-template-columns: 1fr; gap: 48px; padding: 56px 24px; } }
+.calc-l-label { font-size: 9px; letter-spacing: .25em; text-transform: uppercase; color: #bbb; margin-bottom: 12px; }
+.calc-l-title { font-family: ‘Bebas Neue’, sans-serif; font-size: clamp(48px, 7vw, 96px); line-height: .9; }
+.calc-r { }
+.sl-row { margin-bottom: 36px; }
+.sl-lbl { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: #bbb; display: flex; justify-content: space-between; margin-bottom: 16px; }
+.sl-val { color: #0a0a0a; font-size: 11px; }
 input[type=range] {
 -webkit-appearance: none; appearance: none;
-width: 100%; height: 1px; background: #ddd; outline: none; cursor: pointer;
+width: 100%; height: 1px; background: #e8e8e8; outline: none; cursor: pointer;
 }
 input[type=range]::-webkit-slider-thumb {
--webkit-appearance: none; width: 14px; height: 14px;
-background: #0a0a0a; border-radius: 50%; cursor: pointer; transition: background .15s, transform .15s;
+-webkit-appearance: none; width: 13px; height: 13px;
+background: #0a0a0a; border-radius: 50%; transition: transform .15s, background .15s;
 }
-input[type=range]::-webkit-slider-thumb:hover { background: #d946ef; transform: scale(1.4); }
-input[type=range]::-moz-range-thumb { width: 14px; height: 14px; background: #0a0a0a; border-radius: 50%; border: none; cursor: pointer; }
-
-.calc-result-wrap { display: flex; align-items: baseline; gap: 16px; margin: 40px 0 24px; }
-.cr-num {
+input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.5); background: #d946ef; }
+input[type=range]::-moz-range-thumb { width: 13px; height: 13px; background: #0a0a0a; border-radius: 50%; border: none; }
+.calc-out {
+display: flex; align-items: baseline; gap: 12px;
+margin: 40px 0 12px;
+}
+.calc-big {
 font-family: ‘Bebas Neue’, sans-serif;
-font-size: clamp(80px, 14vw, 160px); line-height: 1; color: #d946ef;
-transition: transform .12s;
+font-size: clamp(72px, 12vw, 140px); line-height: 1;
+color: #d946ef; transition: transform .1s;
 }
-.cr-unit { font-size: 9px; letter-spacing: .25em; text-transform: uppercase; color: #bbb; }
-.calc-rec { font-size: 11px; letter-spacing: .15em; color: #aaa; margin-bottom: 32px; }
-.calc-rec strong { color: #0a0a0a; }
-.calc-cta { font-size: 9px; letter-spacing: .25em; text-transform: uppercase; color: #0a0a0a; text-decoration: none; border-bottom: 1px solid #0a0a0a; padding-bottom: 2px; cursor: pointer; transition: color .2s, border-color .2s; background: none; border-left: none; border-right: none; border-top: none; }
-.calc-cta:hover { color: #d946ef; border-color: #d946ef; }
+.calc-unit { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: #bbb; line-height: 1.6; }
+.calc-rec { font-size: 10px; letter-spacing: .1em; color: #999; margin-bottom: 28px; }
+.calc-rec b { color: #0a0a0a; font-weight: 400; }
+.cta-link {
+font-size: 9px; letter-spacing: .25em; text-transform: uppercase;
+background: none; border: none; border-bottom: 1px solid #0a0a0a;
+color: #0a0a0a; padding-bottom: 2px; cursor: pointer; transition: color .2s, border-color .2s;
+}
+.cta-link:hover { color: #d946ef; border-color: #d946ef; }
 
 /* PRICING */
-#b5 { min-height: auto; display: block; }
-.price-header { padding: 64px 48px 40px; border-bottom: 1px solid #eee; }
-.price-label { font-size: 9px; letter-spacing: .3em; text-transform: uppercase; color: #aaa; margin-bottom: 8px; }
-.price-title { font-family: ‘Bebas Neue’, sans-serif; font-size: clamp(48px, 8vw, 100px); line-height: .9; }
-.price-cols { display: grid; grid-template-columns: repeat(3,1fr); }
-@media(max-width:768px){ .price-cols { grid-template-columns: 1fr; } .price-header { padding: 40px 24px 28px; } }
-.pcol {
-padding: 48px; border-right: 1px solid #eee;
-display: flex; flex-direction: column;
-transition: background .25s; cursor: pointer;
+#pricing { border-bottom: 1px solid #f0f0f0; }
+.pr-head { padding: 64px 40px 40px; border-bottom: 1px solid #f0f0f0; }
+.pr-head-label { font-size: 9px; letter-spacing: .25em; text-transform: uppercase; color: #bbb; margin-bottom: 10px; }
+.pr-head-title { font-family: ‘Bebas Neue’, sans-serif; font-size: clamp(56px, 9vw, 120px); line-height: .9; }
+.pr-grid { display: grid; grid-template-columns: repeat(3,1fr); }
+@media(max-width:640px){ .pr-grid { grid-template-columns: 1fr; } }
+.pr-col {
+padding: 48px 40px; border-right: 1px solid #f0f0f0;
+display: flex; flex-direction: column; cursor: pointer;
+transition: background .25s;
 }
-.pcol:hover { background: #0a0a0a; }
-.pcol:last-child { border-right: none; }
-.pcol-t { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: #bbb; margin-bottom: 24px; transition: color .2s; }
-.pcol:hover .pcol-t { color: #555; }
-.pcol-n {
-font-family: ‘Bebas Neue’, sans-serif;
-font-size: 88px; line-height: 1; margin-bottom: 4px;
-transition: color .2s;
-}
-.pcol:hover .pcol-n { color: #d946ef; }
-.pcol-c { font-size: 9px; letter-spacing: .15em; color: #bbb; margin-bottom: 32px; transition: color .2s; }
-.pcol:hover .pcol-c { color: #444; }
-.pcol-f { list-style: none; flex: 1; margin-bottom: 32px; }
-.pcol-f li { font-size: 11px; color: #999; padding: 8px 0; border-bottom: 1px solid #f2f2f2; transition: color .2s, border-color .2s; }
-.pcol:hover .pcol-f li { color: #555; border-color: #1a1a1a; }
-.pcol-btn {
+.pr-col:last-child { border-right: none; }
+.pr-col:hover { background: #0a0a0a; }
+.pr-tier { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: #bbb; margin-bottom: 20px; transition: color .25s; }
+.pr-col:hover .pr-tier { color: #444; }
+.pr-num { font-family: ‘Bebas Neue’, sans-serif; font-size: 88px; line-height: 1; margin-bottom: 4px; transition: color .25s; }
+.pr-col:hover .pr-num { color: #d946ef; }
+.pr-chf { font-size: 9px; letter-spacing: .15em; color: #bbb; margin-bottom: 32px; transition: color .25s; }
+.pr-col:hover .pr-chf { color: #444; }
+.pr-list { list-style: none; flex: 1; margin-bottom: 28px; }
+.pr-list li { font-size: 10px; color: #bbb; padding: 7px 0; border-bottom: 1px solid #f5f5f5; transition: color .25s, border-color .25s; }
+.pr-col:hover .pr-list li { color: #555; border-color: #1c1c1c; }
+.pr-btn {
 font-size: 9px; letter-spacing: .2em; text-transform: uppercase;
-background: none; border: 1px solid #e0e0e0; color: #bbb;
-padding: 12px; cursor: pointer; transition: all .2s;
+background: none; border: 1px solid #e8e8e8; color: #ccc;
+padding: 12px; cursor: pointer; transition: all .25s;
 }
-.pcol:hover .pcol-btn { border-color: #333; color: #888; }
-.pcol:hover .pcol-btn:hover { border-color: #d946ef; color: #d946ef; }
-@media(max-width:768px){ .pcol { border-right: none; border-bottom: 1px solid #eee; padding: 32px 24px; } }
+.pr-col:hover .pr-btn { border-color: #2a2a2a; color: #666; }
+.pr-col:hover .pr-btn:hover { border-color: #d946ef; color: #d946ef; }
+@media(max-width:640px){ .pr-col { border-right: none; border-bottom: 1px solid #f0f0f0; padding: 36px 24px; } }
 
-/* CREDITS strip */
-.cred-strip { display: grid; grid-template-columns: repeat(3,1fr); border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
-@media(max-width:768px){ .cred-strip { grid-template-columns: 1fr; } }
-.cs-item {
-padding: 48px; border-right: 1px solid #eee;
-cursor: pointer; transition: background .2s;
-}
-.cs-item:hover { background: #f7f7f7; }
-.cs-item:last-child { border-right: none; }
-.cs-pop { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: #d946ef; margin-bottom: 6px; }
-.cs-usd { font-family: ‘Bebas Neue’, sans-serif; font-size: 64px; line-height: 1; }
-.cs-mins { font-size: 11px; color: #777; margin-top: 10px; }
-.cs-tag { font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: #ccc; margin-top: 4px; }
-@media(max-width:768px){ .cs-item { border-right: none; border-bottom: 1px solid #eee; padding: 32px 24px; } }
+/* CREDITS */
+.cr-strip { display: grid; grid-template-columns: repeat(3,1fr); border-top: 1px solid #f0f0f0; }
+@media(max-width:640px){ .cr-strip { grid-template-columns: 1fr; } }
+.cr-item { padding: 40px; border-right: 1px solid #f0f0f0; cursor: pointer; transition: background .2s; }
+.cr-item:last-child { border-right: none; }
+.cr-item:hover { background: #fafafa; }
+.cr-pop { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: #d946ef; margin-bottom: 6px; height: 16px; }
+.cr-usd { font-family: ‘Bebas Neue’, sans-serif; font-size: 64px; line-height: 1; }
+.cr-min { font-size: 10px; color: #888; margin-top: 8px; }
+.cr-tag { font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: #ccc; margin-top: 3px; }
+@media(max-width:640px){ .cr-item { border-right: none; border-bottom: 1px solid #f0f0f0; padding: 28px 24px; } }
 
-/* CALLBACK */
-#b6 { min-height: auto; display: grid; grid-template-columns: 1fr 1fr; cursor: default; }
-@media(max-width:768px){ #b6 { grid-template-columns: 1fr; } }
-.cb-l {
-padding: 80px 48px; border-right: 1px solid #eee;
-display: flex; flex-direction: column; justify-content: space-between;
-min-height: 560px;
+/* CONTACT */
+#contact { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid #f0f0f0; }
+@media(max-width:768px){ #contact { grid-template-columns: 1fr; } }
+.co-l {
+padding: 80px 40px; border-right: 1px solid #f0f0f0;
+display: flex; flex-direction: column; justify-content: space-between; min-height: 520px;
 }
-.cb-r { padding: 80px 48px; }
-.cb-big {
+@media(max-width:768px){ .co-l { border-right: none; border-bottom: 1px solid #f0f0f0; min-height: auto; padding: 48px 24px; } }
+.co-l-big {
 font-family: ‘Bebas Neue’, sans-serif;
-font-size: clamp(56px, 7vw, 100px); line-height: .9;
-cursor: pointer; transition: color .3s; user-select: none;
+font-size: clamp(56px, 8vw, 110px); line-height: .9;
+cursor: pointer; user-select: none; transition: color .25s;
 }
-.cb-big:hover { color: #d946ef; }
-.cb-sub { font-size: 11px; color: #aaa; line-height: 1.8; max-width: 260px; margin-top: 20px; }
-.cb-phone-lbl { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: #bbb; margin-bottom: 6px; margin-top: 40px; }
-.cb-phone { font-family: ‘Bebas Neue’, sans-serif; font-size: 28px; letter-spacing: .05em; }
-.f-row { margin-bottom: 0; }
-.f-lbl { display: block; font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: #bbb; margin-bottom: 8px; margin-top: 28px; }
+.co-l-big:hover { color: #d946ef; }
+.co-l-sub { font-size: 10px; color: #bbb; line-height: 1.8; margin-top: 16px; max-width: 240px; }
+.co-l-tel-lbl { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: #ccc; margin-bottom: 6px; }
+.co-l-tel { font-family: ‘Bebas Neue’, sans-serif; font-size: 28px; }
+.co-r { padding: 80px 40px; }
+@media(max-width:768px){ .co-r { padding: 48px 24px; } }
+.f-lbl { display: block; font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: #ccc; margin-bottom: 6px; margin-top: 24px; }
+.f-lbl:first-child { margin-top: 0; }
 .f-inp {
-width: 100%; background: transparent; border: none; border-bottom: 1px solid #ddd;
-color: #0a0a0a; font-family: ‘DM Mono’, monospace; font-size: 14px;
+width: 100%; background: transparent; border: none;
+border-bottom: 1px solid #e8e8e8; color: #0a0a0a;
+font-family: ‘DM Mono’, monospace; font-size: 14px;
 padding: 8px 0; outline: none; transition: border-color .2s;
 }
 .f-inp:focus { border-color: #0a0a0a; }
-.f-inp::placeholder { color: #ccc; }
-.cb-send {
+.f-inp::placeholder { color: #ddd; }
+.f-send {
 width: 100%; margin-top: 40px; padding: 18px;
 background: #0a0a0a; color: #fff;
-font-family: ‘Bebas Neue’, sans-serif; font-size: 22px; letter-spacing: .08em;
+font-family: ‘Bebas Neue’, sans-serif; font-size: 20px; letter-spacing: .08em;
 border: none; cursor: pointer; transition: background .25s;
 }
-.cb-send:hover { background: #d946ef; }
-.cb-ok { display: none; }
-.cb-ok-big { font-family: ‘Bebas Neue’, sans-serif; font-size: 56px; line-height: .9; margin-bottom: 12px; }
-.cb-ok-ph { font-size: 11px; letter-spacing: .15em; color: #d946ef; margin-top: 16px; }
-@media(max-width:768px){ .cb-l, .cb-r { padding: 48px 24px; min-height: auto; } .cb-l { border-right: none; border-bottom: 1px solid #eee; } }
+.f-send:hover { background: #d946ef; }
+.f-ok { display: none; padding-top: 24px; }
+.f-ok-big { font-family: ‘Bebas Neue’, sans-serif; font-size: 56px; line-height: .9; margin-bottom: 12px; }
+.f-ok-ph { font-size: 10px; letter-spacing: .15em; color: #d946ef; }
 
 /* FOOTER */
-footer {
-padding: 24px 48px; display: flex; justify-content: space-between; align-items: center;
-flex-wrap: wrap; gap: 12px; border-top: 1px solid #eee;
-}
-.f-logo { font-family: ‘Bebas Neue’, sans-serif; font-size: 16px; letter-spacing: .4em; color: #bbb; }
+footer { padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.f-logo { font-family: ‘Bebas Neue’, sans-serif; font-size: 14px; letter-spacing: .5em; color: #ccc; }
 .f-links { display: flex; gap: 24px; list-style: none; }
-.f-links a { font-size: 9px; letter-spacing: .15em; text-transform: uppercase; color: #ccc; text-decoration: none; transition: color .2s; }
+.f-links a { font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: #ddd; text-decoration: none; transition: color .2s; }
 .f-links a:hover { color: #0a0a0a; }
-.f-copy { font-size: 9px; color: #ddd; letter-spacing: .08em; }
-@media(max-width:768px){ footer { flex-direction: column; text-align: center; padding: 20px 24px; } .f-links { flex-wrap: wrap; justify-content: center; } }
+.f-copy { font-size: 9px; color: #ddd; }
+@media(max-width:640px){ footer { flex-direction: column; text-align: center; padding: 20px 24px; } .f-links { flex-wrap: wrap; justify-content: center; } }
 
 /* CHAT */
-.chat-fab { position: fixed; bottom: 24px; right: 24px; z-index: 300; }
-.ct {
-width: 44px; height: 44px; background: #0a0a0a; border: none; border-radius: 50%;
-cursor: pointer; display: flex; align-items: center; justify-content: center;
-font-size: 16px; transition: background .2s;
+.fab { position: fixed; bottom: 24px; right: 24px; z-index: 200; }
+.fab-btn {
+width: 40px; height: 40px; background: #0a0a0a; border: none;
+border-radius: 50%; cursor: pointer; display: flex; align-items: center;
+justify-content: center; font-size: 14px; transition: background .2s;
 }
-.ct:hover, .ct.open { background: #d946ef; }
-.ico-c { display: block; } .ico-x { display: none; font-size: 11px; color: #fff; }
-.ct.open .ico-c { display: none; } .ct.open .ico-x { display: block; }
-.cw {
-position: fixed; bottom: 80px; right: 24px; width: 320px; background: #fff;
-border: 1px solid #e0e0e0; z-index: 299; display: flex; flex-direction: column;
-max-height: 440px; opacity: 0; transform: translateY(8px); pointer-events: none;
+.fab-btn:hover { background: #d946ef; }
+.fab-btn.on { background: #d946ef; }
+.ico-o { display: block; } .ico-c2 { display: none; font-size: 10px; color: #fff; font-family: ‘DM Mono’, monospace; }
+.fab-btn.on .ico-o { display: none; } .fab-btn.on .ico-c2 { display: block; }
+.chat-w {
+position: fixed; bottom: 74px; right: 24px; width: 300px; background: #fff;
+border: 1px solid #e8e8e8; z-index: 199;
+display: flex; flex-direction: column; max-height: 420px;
+opacity: 0; transform: translateY(8px); pointer-events: none;
 transition: opacity .2s, transform .2s;
 }
-.cw.open { opacity: 1; transform: translateY(0); pointer-events: all; }
-@media(max-width:500px){ .cw { width: calc(100vw - 32px); right: 16px; } }
-.ch { padding: 16px 20px; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 10px; }
-.ca { width: 32px; height: 32px; background: #0a0a0a; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: ‘Bebas Neue’, sans-serif; font-size: 12px; color: #fff; flex-shrink: 0; }
-.ch-name { font-family: ‘Bebas Neue’, sans-serif; font-size: 16px; letter-spacing: .04em; }
-.ch-st { font-size: 9px; letter-spacing: .15em; text-transform: uppercase; color: #d946ef; }
-.cm { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; min-height: 220px; max-height: 260px; scrollbar-width: thin; }
-.msg { max-width: 85%; }
+.chat-w.on { opacity: 1; transform: translateY(0); pointer-events: all; }
+@media(max-width:500px){ .chat-w { width: calc(100vw - 32px); right: 16px; } }
+.cw-h { padding: 14px 18px; border-bottom: 1px solid #f0f0f0; display: flex; align-items: center; gap: 10px; }
+.cw-av { width: 28px; height: 28px; background: #0a0a0a; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: ‘Bebas Neue’, sans-serif; font-size: 11px; color: #fff; flex-shrink: 0; }
+.cw-name { font-family: ‘Bebas Neue’, sans-serif; font-size: 15px; }
+.cw-st { font-size: 8px; letter-spacing: .15em; text-transform: uppercase; color: #bbb; }
+.cw-msgs { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 8px; min-height: 200px; max-height: 240px; scrollbar-width: thin; }
+.msg { max-width: 86%; }
 .msg.bot { align-self: flex-start; }
 .msg.usr { align-self: flex-end; }
-.mb { padding: 10px 14px; font-size: 12px; line-height: 1.6; animation: mi .2s ease; }
-@keyframes mi { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
-.msg.bot .mb { background: #f7f7f7; border: 1px solid #eee; color: #555; }
+.mb { padding: 9px 12px; font-size: 11px; line-height: 1.6; animation: mi .2s ease; }
+@keyframes mi { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; } }
+.msg.bot .mb { background: #f7f7f7; color: #555; }
 .msg.usr .mb { background: #0a0a0a; color: #fff; }
-.cqr { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 16px 12px; }
-.qb { background: none; border: 1px solid #e0e0e0; color: #aaa; font-family: ‘DM Mono’, monospace; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; padding: 6px 10px; cursor: pointer; transition: all .15s; }
+.cw-qr { display: flex; flex-wrap: wrap; gap: 5px; padding: 0 14px 10px; }
+.qb { background: none; border: 1px solid #e8e8e8; color: #bbb; font-family: ‘DM Mono’, monospace; font-size: 8px; letter-spacing: .1em; text-transform: uppercase; padding: 5px 9px; cursor: pointer; transition: all .15s; }
 .qb:hover { border-color: #0a0a0a; color: #0a0a0a; }
-.cir { padding: 12px 16px; border-top: 1px solid #eee; display: flex; gap: 8px; }
-.ci { flex: 1; background: #fff; border: none; border-bottom: 1px solid #ddd; color: #0a0a0a; font-family: ‘DM Mono’, monospace; font-size: 12px; padding: 6px 0; outline: none; transition: border-color .2s; }
+.cw-inp { padding: 10px 14px; border-top: 1px solid #f0f0f0; display: flex; gap: 8px; }
+.ci { flex: 1; background: transparent; border: none; border-bottom: 1px solid #e8e8e8; color: #0a0a0a; font-family: ‘DM Mono’, monospace; font-size: 11px; padding: 5px 0; outline: none; transition: border-color .2s; }
 .ci:focus { border-color: #0a0a0a; }
 .ci::placeholder { color: #ccc; }
-.cs { background: #0a0a0a; border: none; color: #fff; width: 34px; height: 34px; cursor: pointer; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background .2s; }
+.cs { background: #0a0a0a; border: none; color: #fff; width: 30px; height: 30px; cursor: pointer; font-size: 11px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background .2s; }
 .cs:hover { background: #d946ef; }
-.ty { display: flex; gap: 3px; padding: 10px 14px; background: #f7f7f7; border: 1px solid #eee; width: fit-content; }
-.td { width: 4px; height: 4px; background: #ccc; border-radius: 50%; animation: tb .8s infinite; }
-.td:nth-child(2){animation-delay:.15s}.td:nth-child(3){animation-delay:.3s}
+.ty { display: flex; gap: 3px; padding: 9px 12px; background: #f7f7f7; width: fit-content; }
+.td { width: 4px; height: 4px; background: #ccc; border-radius: 50%; animation: tb .7s infinite; }
+.td:nth-child(2){animation-delay:.12s}.td:nth-child(3){animation-delay:.24s}
 @keyframes tb{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px);background:#d946ef;}}
-
-/* REVEAL */
-.rv { opacity: 0; transform: translateY(16px); transition: opacity .5s ease, transform .5s ease; }
-.rv.on { opacity: 1; transform: translateY(0); }
 </style>
 
 </head>
 <body>
 
-<!-- HEADER -->
+<!-- NAV -->
 
-<header>
-  <div class="logo">SNOB</div>
-  <div class="header-r" onclick="document.getElementById('b6').scrollIntoView({behavior:'smooth'})">Demo anfragen</div>
-</header>
+<nav>
+  <div class="n-logo">SNOB</div>
+  <button class="n-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Demo anfragen</button>
+</nav>
 
-<!-- HERO: tap to expand -->
+<!-- HERO -->
 
-<div class="block" id="b1" onclick="this.classList.toggle('expanded')">
-  <div class="big-word" id="heroWord">SNOB</div>
-  <div class="sub-appear">Network-Operated Brain — S.N.O.B.AI</div>
+<div id="hero" onclick="this.classList.toggle('big')">
+  <div id="hero-word">SNOB</div>
+  <div id="hero-hint">— Tippen —</div>
+  <div id="hero-sub">Network-Operated Brain · S.N.O.B.AI · Basel</div>
 </div>
 
-<!-- TAGLINE -->
+<!-- STATEMENT -->
 
-<div class="block" id="b2">
-  <div class="tagline">
-    <span class="dim">Das AI-Gehirn</span><br>
-    für dein<br>
-    Unternehmen.
+<div id="stmt" onclick="this.classList.toggle('active')">
+  <div id="stmt-txt">
+    <span class="g">Kein</span> Mensch.<br>
+    <span class="g">Kein</span> Warten.<br>
+    Nur AI.
   </div>
 </div>
 
-<!-- PLATFORM ROWS -->
+<!-- PILLARS -->
 
-<div id="b3">
-  <div class="rows">
-    <div class="row-item rv" onclick="this.classList.toggle('open')">
-      <span class="row-num">01</span>
-      <span class="row-title">AI Brain</span>
-      <span class="row-desc">Versteht, entscheidet, reagiert — in Echtzeit.</span>
-      <span class="row-arr">→</span>
+<div id="pillars">
+  <div class="pill">
+    <div class="pill-n">01</div>
+    <div class="pill-body">
+      <div class="pill-title">AI Brain</div>
+      <div class="pill-desc">Versteht, entscheidet,<br>reagiert in Echtzeit.</div>
     </div>
-    <div class="row-item rv" onclick="this.classList.toggle('open')">
-      <span class="row-num">02</span>
-      <span class="row-title">Communication Layer</span>
-      <span class="row-desc">Inbound & Outbound Calls, Chat, Voice AI.</span>
-      <span class="row-arr">→</span>
+  </div>
+  <div class="pill">
+    <div class="pill-n">02</div>
+    <div class="pill-body">
+      <div class="pill-title">Calls & Chat</div>
+      <div class="pill-desc">Inbound & Outbound.<br>DE / EN / FR. 24/7.</div>
     </div>
-    <div class="row-item rv" onclick="this.classList.toggle('open')">
-      <span class="row-num">03</span>
-      <span class="row-title">Interface Layer</span>
-      <span class="row-desc">Dashboard, dynamische UI, volle Kontrolle.</span>
-      <span class="row-arr">→</span>
+  </div>
+  <div class="pill">
+    <div class="pill-n">03</div>
+    <div class="pill-body">
+      <div class="pill-title">Dashboard</div>
+      <div class="pill-desc">Volle Kontrolle.<br>Live Analytics.</div>
     </div>
-    <div class="row-item rv" onclick="this.classList.toggle('open')">
-      <span class="row-num">04</span>
-      <span class="row-title">Automation Layer</span>
-      <span class="row-desc">CRM, Kalender, Zahlungen, Workflows.</span>
-      <span class="row-arr">→</span>
+  </div>
+  <div class="pill">
+    <div class="pill-n">04</div>
+    <div class="pill-body">
+      <div class="pill-title">Automation</div>
+      <div class="pill-desc">CRM, Kalender,<br>Zahlungen, Workflows.</div>
     </div>
   </div>
 </div>
 
-<!-- CALCULATOR -->
+<!-- CALC -->
 
-<div id="b4">
-  <div class="calc-label">Kalkulator</div>
-  <div class="calc-title">Wie viel<br>brauchst du?</div>
-  <div class="calc-inner">
-    <div class="c-row">
-      <div class="c-lbl">Calls / Monat <span class="c-val" id="vC">50</span></div>
-      <input type="range" id="sC" min="10" max="500" value="50" step="10" oninput="calc()">
+<div id="calc">
+  <div>
+    <div class="calc-l-label">Kalkulator</div>
+    <div class="calc-l-title">Wie viel<br>brauchst<br>du?</div>
+  </div>
+  <div class="calc-r">
+    <div class="sl-row">
+      <div class="sl-lbl">Calls / Monat <span class="sl-val" id="vC">50</span></div>
+      <input type="range" id="sC" min="10" max="500" value="50" step="10" oninput="doCalc()">
     </div>
-    <div class="c-row">
-      <div class="c-lbl">Ø Dauer (Min.) <span class="c-val" id="vD">4</span></div>
-      <input type="range" id="sD" min="1" max="20" value="4" step="1" oninput="calc()">
+    <div class="sl-row">
+      <div class="sl-lbl">Ø Dauer (Min.) <span class="sl-val" id="vD">4</span></div>
+      <input type="range" id="sD" min="1" max="20" value="4" step="1" oninput="doCalc()">
     </div>
-    <div class="calc-result-wrap">
-      <div class="cr-num" id="rN">200</div>
-      <div class="cr-unit">Call-<br>Minuten</div>
+    <div class="calc-out">
+      <div class="calc-big" id="rN">200</div>
+      <div class="calc-unit">Call-<br>Minuten</div>
     </div>
-    <div class="calc-rec" id="rRec">Empfehlung: <strong>Basic — 333 CHF/Monat</strong></div>
-    <button class="calc-cta" onclick="document.getElementById('b6').scrollIntoView({behavior:'smooth'})">Anfragen →</button>
+    <div class="calc-rec" id="rRec">Empfehlung: <b>Basic — 333 CHF / Monat</b></div>
+    <button class="cta-link" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Anfragen →</button>
   </div>
 </div>
 
 <!-- PRICING -->
 
-<div id="b5">
-  <div class="price-header rv">
-    <div class="price-label">Pricing</div>
-    <div class="price-title">Klar.<br>Direkt.</div>
+<div id="pricing">
+  <div class="pr-head">
+    <div class="pr-head-label">Pricing</div>
+    <div class="pr-head-title">Klar.<br>Direkt.</div>
   </div>
-  <div class="price-cols">
-    <div class="pcol rv" onclick="document.getElementById('b6').scrollIntoView({behavior:'smooth'})">
-      <div class="pcol-t">Basic</div>
-      <div class="pcol-n">333</div>
-      <div class="pcol-c">CHF / Monat</div>
-      <ul class="pcol-f">
-        <li>SNOB Core Setup</li>
+  <div class="pr-grid">
+    <div class="pr-col" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+      <div class="pr-tier">Basic</div>
+      <div class="pr-num">333</div>
+      <div class="pr-chf">CHF / Monat</div>
+      <ul class="pr-list">
+        <li>Core Setup</li>
         <li>AI Calls & Automation</li>
         <li>DE / EN / FR</li>
         <li>Dashboard & Analytics</li>
         <li>Email Support</li>
       </ul>
-      <button class="pcol-btn">Anfragen</button>
+      <button class="pr-btn">Anfragen</button>
     </div>
-    <div class="pcol rv" onclick="document.getElementById('b6').scrollIntoView({behavior:'smooth'})">
-      <div class="pcol-t">Go Full</div>
-      <div class="pcol-n">777</div>
-      <div class="pcol-c">CHF / Monat</div>
-      <ul class="pcol-f">
+    <div class="pr-col" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+      <div class="pr-tier">Go Full</div>
+      <div class="pr-num">777</div>
+      <div class="pr-chf">CHF / Monat</div>
+      <ul class="pr-list">
         <li>Alles aus Basic</li>
         <li>Erweiterte Flows</li>
         <li>CRM & Kalender</li>
         <li>Outbound Kampagnen</li>
         <li>Priority Support</li>
       </ul>
-      <button class="pcol-btn">Anfragen</button>
+      <button class="pr-btn">Anfragen</button>
     </div>
-    <div class="pcol rv" onclick="document.getElementById('b6').scrollIntoView({behavior:'smooth'})">
-      <div class="pcol-t">Corporate</div>
-      <div class="pcol-n" style="font-size:44px;line-height:1.1;">AUF<br>ANFRAGE</div>
-      <div class="pcol-c" style="margin-top:14px;">Individuell</div>
-      <ul class="pcol-f">
+    <div class="pr-col" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+      <div class="pr-tier">Corporate</div>
+      <div class="pr-num" style="font-size:44px;line-height:1.15;">AUF<br>ANFRAGE</div>
+      <div class="pr-chf" style="margin-top:12px;">Individuell</div>
+      <ul class="pr-list">
         <li>Alles aus Go Full</li>
         <li>Individuelles Setup</li>
         <li>Mehrere Standorte</li>
         <li>API-Architektur</li>
         <li>Account Manager</li>
       </ul>
-      <button class="pcol-btn">Gespräch</button>
+      <button class="pr-btn">Gespräch</button>
     </div>
   </div>
-
-  <!-- CREDITS -->
-
-  <div class="cred-strip">
-    <div class="cs-item rv">
-      <div class="cs-usd">$50</div>
-      <div class="cs-mins">555 Minuten</div>
-      <div class="cs-tag">Priority · Low Latency</div>
+  <div class="cr-strip">
+    <div class="cr-item">
+      <div class="cr-pop"></div>
+      <div class="cr-usd">$50</div>
+      <div class="cr-min">555 Minuten</div>
+      <div class="cr-tag">Priority · Low Latency</div>
     </div>
-    <div class="cs-item rv">
-      <div class="cs-pop">Beliebt</div>
-      <div class="cs-usd">$100</div>
-      <div class="cs-mins">1'111 Minuten</div>
-      <div class="cs-tag">Priority · Low Latency</div>
+    <div class="cr-item">
+      <div class="cr-pop">Beliebt</div>
+      <div class="cr-usd">$100</div>
+      <div class="cr-min">1'111 Minuten</div>
+      <div class="cr-tag">Priority · Low Latency</div>
     </div>
-    <div class="cs-item rv">
-      <div class="cs-usd">$300</div>
-      <div class="cs-mins">3'333 Minuten</div>
-      <div class="cs-tag">Priority · Low Latency</div>
+    <div class="cr-item">
+      <div class="cr-pop"></div>
+      <div class="cr-usd">$300</div>
+      <div class="cr-min">3'333 Minuten</div>
+      <div class="cr-tag">Priority · Low Latency</div>
     </div>
   </div>
 </div>
 
-<!-- CALLBACK -->
+<!-- CONTACT -->
 
-<div id="b6">
-  <div class="cb-l">
+<div id="contact">
+  <div class="co-l">
     <div>
-      <div class="cb-big" onclick="document.getElementById('cbPhone').focus()">
+      <div class="co-l-big" onclick="document.getElementById('fPhone').focus()">
         SNOB<br>ruft dich<br>an.
       </div>
-      <div class="cb-sub">Kein Sales-Pitch. SNOB selbst meldet sich innert 60 Sekunden.</div>
+      <div class="co-l-sub">Kein Sales-Pitch.<br>Innert 60 Sekunden.</div>
     </div>
     <div>
-      <div class="cb-phone-lbl">Direkt anrufen</div>
-      <div class="cb-phone">+41 61 539 13 99</div>
+      <div class="co-l-tel-lbl">Direkt</div>
+      <div class="co-l-tel">+41 61 539 13 99</div>
     </div>
   </div>
-  <div class="cb-r">
-    <div id="cbForm">
+  <div class="co-r">
+    <div id="fForm">
       <label class="f-lbl">Name</label>
-      <input class="f-inp" id="cbName" type="text" placeholder="Max Muster">
+      <input class="f-inp" id="fName" type="text" placeholder="Max Muster">
       <label class="f-lbl">Telefon</label>
-      <input class="f-inp" id="cbPhone" type="tel" placeholder="+41 79 000 00 00">
-      <label class="f-lbl">Unternehmen</label>
-      <input class="f-inp" id="cbCo" type="text" placeholder="Optional">
-      <button class="cb-send" onclick="cbSend()">SNOB ANRUFEN LASSEN</button>
+      <input class="f-inp" id="fPhone" type="tel" placeholder="+41 79 000 00 00">
+      <label class="f-lbl">Firma</label>
+      <input class="f-inp" id="fCo" type="text" placeholder="Optional">
+      <button class="f-send" onclick="fSend()">SNOB ANRUFEN LASSEN</button>
     </div>
-    <div class="cb-ok" id="cbOk">
-      <div class="cb-ok-big">Perfekt.<br>SNOB meldet<br>sich.</div>
-      <div class="cb-ok-ph">+41 61 539 13 99</div>
+    <div class="f-ok" id="fOk">
+      <div class="f-ok-big">Perfekt.<br>SNOB meldet<br>sich.</div>
+      <div class="f-ok-ph">+41 61 539 13 99</div>
     </div>
   </div>
 </div>
@@ -489,110 +480,94 @@ transition: opacity .2s, transform .2s;
     <li><a href="#">AGB</a></li>
     <li><a href="#">Impressum</a></li>
   </ul>
-  <div class="f-copy">© 2026 S.N.O.B.AI · Basel-Stadt · +41 61 539 13 99</div>
+  <div class="f-copy">© 2026 S.N.O.B.AI · Basel</div>
 </footer>
 
-<!-- CHAT FAB -->
+<!-- CHAT -->
 
-<div class="chat-fab">
-  <div class="cw" id="cw">
-    <div class="ch">
-      <div class="ca">SN</div>
+<div class="fab">
+  <div class="chat-w" id="chatW">
+    <div class="cw-h">
+      <div class="cw-av">SN</div>
       <div>
-        <div class="ch-name">SNOB</div>
-        <div class="ch-st">Online</div>
+        <div class="cw-name">SNOB</div>
+        <div class="cw-st">Online</div>
       </div>
     </div>
-    <div class="cm" id="cm"></div>
-    <div class="cqr" id="cqr">
+    <div class="cw-msgs" id="cMsgs"></div>
+    <div class="cw-qr" id="cQR">
       <button class="qb" onclick="qr('Preise')">Preise</button>
       <button class="qb" onclick="qr('AI Calls')">AI Calls</button>
       <button class="qb" onclick="qr('Demo')">Demo</button>
-      <button class="qb" onclick="qr('Was ist SNOB?')">Was ist SNOB?</button>
+      <button class="qb" onclick="qr('Was ist SNOB')">Was ist SNOB?</button>
     </div>
-    <div class="cir">
-      <input class="ci" id="ci" type="text" placeholder="Frag SNOB..." onkeydown="if(event.key==='Enter')send()">
-      <button class="cs" onclick="send()">→</button>
+    <div class="cw-inp">
+      <input class="ci" id="cIn" type="text" placeholder="Frag SNOB..." onkeydown="if(event.key==='Enter')cSend()">
+      <button class="cs" onclick="cSend()">→</button>
     </div>
   </div>
-  <button class="ct" id="ct" onclick="toggleChat()">
-    <span class="ico-c">💬</span>
-    <span class="ico-x">✕</span>
+  <button class="fab-btn" id="fabBtn" onclick="toggleChat()">
+    <span class="ico-o">💬</span>
+    <span class="ico-c2">✕</span>
   </button>
 </div>
 
 <script>
-// REVEAL
-const rvO = new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on');}),{threshold:.1});
-document.querySelectorAll('.rv').forEach(el=>rvO.observe(el));
-
 // CALC
-function calc(){
-  const c=+document.getElementById('sC').value;
-  const d=+document.getElementById('sD').value;
-  const t=c*d;
+function doCalc(){
+  const c=+document.getElementById('sC').value, d=+document.getElementById('sD').value, t=c*d;
   document.getElementById('vC').textContent=c;
   document.getElementById('vD').textContent=d;
   const n=document.getElementById('rN');
   n.textContent=t.toLocaleString('de-CH');
-  n.style.transform='scale(1.04)';
-  setTimeout(()=>n.style.transform='scale(1)',100);
-  const cp=(c-10)/(500-10)*100, dp=(d-1)/(20-1)*100;
-  document.getElementById('sC').style.background=`linear-gradient(to right,#0a0a0a ${cp}%,#ddd ${cp}%)`;
-  document.getElementById('sD').style.background=`linear-gradient(to right,#0a0a0a ${dp}%,#ddd ${dp}%)`;
-  let rec;
-  if(t<=1500) rec='Basic — 333 CHF/Monat';
-  else if(t<=4000) rec='Go Full — 777 CHF/Monat';
-  else rec='Corporate — auf Anfrage';
-  document.getElementById('rRec').innerHTML='Empfehlung: <strong>'+rec+'</strong>';
+  n.style.transform='scale(1.03)';
+  setTimeout(()=>n.style.transform='',100);
+  const cp=(c-10)/490*100, dp=(d-1)/19*100;
+  document.getElementById('sC').style.background=`linear-gradient(to right,#0a0a0a ${cp}%,#e8e8e8 ${cp}%)`;
+  document.getElementById('sD').style.background=`linear-gradient(to right,#0a0a0a ${dp}%,#e8e8e8 ${dp}%)`;
+  const rec = t<=1500 ? 'Basic — 333 CHF / Monat' : t<=4000 ? 'Go Full — 777 CHF / Monat' : 'Corporate — auf Anfrage';
+  document.getElementById('rRec').innerHTML='Empfehlung: <b>'+rec+'</b>';
 }
-calc();
+doCalc();
 
-// CALLBACK
-function cbSend(){
-  const n=document.getElementById('cbName').value.trim();
-  const p=document.getElementById('cbPhone').value.trim();
-  if(!n||!p){
-    document.getElementById('cbPhone').style.borderColor='#d946ef';
-    setTimeout(()=>document.getElementById('cbPhone').style.borderColor='',1500);
-    return;
-  }
-  document.getElementById('cbForm').style.display='none';
-  document.getElementById('cbOk').style.display='block';
+// FORM
+function fSend(){
+  const n=document.getElementById('fName').value.trim(), p=document.getElementById('fPhone').value.trim();
+  if(!n||!p){ document.getElementById('fPhone').style.borderColor='#d946ef'; setTimeout(()=>document.getElementById('fPhone').style.borderColor='',1500); return; }
+  document.getElementById('fForm').style.display='none';
+  document.getElementById('fOk').style.display='block';
 }
 
 // CHAT
-let open=false;
+let chatOpen=false;
 const R={
-  'preise':'Basic **333 CHF** · Go Full **777 CHF** · Corporate auf Anfrage.\nExtra-Minuten: $50→555 · $100→1111 · $300→3333.',
+  'preise':'Basic **333 CHF** · Go Full **777 CHF** · Corporate auf Anfrage.\nMinuten-Pakete: $50→555 · $100→1111 · $300→3333.',
   'ai call':'Einmal konfigurieren — SNOB übernimmt Inbound & Outbound, multilingual, Echtzeit.',
-  'demo':'Formular weiter unten — SNOB ruft dich in 60 Sekunden zurück. 🤙',
-  'was ist snob':'SNOB ist das Network-Operated Brain — Schweizer AI-Plattform für Calls, Chat, Support und Sales.',
-  'default':'Ruf uns direkt an: **+41 61 539 13 99** oder nutze das Formular. 💡'
+  'demo':'Formular weiter unten — SNOB ruft dich in 60 Sek. zurück. 🤙',
+  'was ist snob':'SNOB = Network-Operated Brain. Schweizer AI-Plattform für Calls, Chat und Prozesse.',
+  'default':'Ruf uns an: **+41 61 539 13 99** oder nutze das Formular unten.'
 };
 function gr(t){const l=t.toLowerCase();for(const k in R)if(k!=='default'&&l.includes(k))return R[k];return R.default;}
-function addMsg(tx,ty,dl){setTimeout(()=>{
-  const m=document.getElementById('cm');
-  const d=document.createElement('div');d.className='msg '+ty;
+function addM(tx,ty,dl){setTimeout(()=>{
+  const m=document.getElementById('cMsgs'),d=document.createElement('div');
+  d.className='msg '+ty;
   d.innerHTML='<div class="mb">'+tx.replace(/\*\*(.*?)\*\*/g,'<b>$1</b>').replace(/\n/g,'<br>')+'</div>';
   m.appendChild(d);m.scrollTop=m.scrollHeight;
 },dl||0);}
-function showTy(){const m=document.getElementById('cm');const d=document.createElement('div');d.className='msg bot';d.id='ty';d.innerHTML='<div class="ty"><div class="td"></div><div class="td"></div><div class="td"></div></div>';m.appendChild(d);m.scrollTop=m.scrollHeight;}
-function rmTy(){const t=document.getElementById('ty');if(t)t.remove();}
-function send(m){
-  const i=document.getElementById('ci');
-  const t=m||i.value.trim();if(!t)return;
-  i.value='';document.getElementById('cqr').style.display='none';
-  addMsg(t,'usr');showTy();
-  setTimeout(()=>{rmTy();addMsg(gr(t),'bot');},600+Math.random()*400);
+function showT(){const m=document.getElementById('cMsgs'),d=document.createElement('div');d.className='msg bot';d.id='ty';d.innerHTML='<div class="ty"><div class="td"></div><div class="td"></div><div class="td"></div></div>';m.appendChild(d);m.scrollTop=m.scrollHeight;}
+function rmT(){const t=document.getElementById('ty');if(t)t.remove();}
+function cSend(m){
+  const i=document.getElementById('cIn'),t=m||i.value.trim();if(!t)return;
+  i.value='';document.getElementById('cQR').style.display='none';
+  addM(t,'usr');showT();setTimeout(()=>{rmT();addM(gr(t),'bot');},500+Math.random()*300);
 }
-function qr(t){send(t);}
+function qr(t){cSend(t);}
 function toggleChat(){
-  open=!open;
-  document.getElementById('cw').classList.toggle('open',open);
-  document.getElementById('ct').classList.toggle('open',open);
-  if(open&&!document.getElementById('cm').children.length){
-    showTy();setTimeout(()=>{rmTy();addMsg('Hey — ich bin SNOB. Wie kann ich helfen?','bot');},500);
+  chatOpen=!chatOpen;
+  document.getElementById('chatW').classList.toggle('on',chatOpen);
+  document.getElementById('fabBtn').classList.toggle('on',chatOpen);
+  if(chatOpen&&!document.getElementById('cMsgs').children.length){
+    showT();setTimeout(()=>{rmT();addM('Hey — ich bin SNOB. Wie kann ich helfen?','bot');},450);
   }
 }
 </script>
