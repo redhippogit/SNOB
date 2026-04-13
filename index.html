@@ -6,898 +6,403 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>S.N.O.B.AI — Network-Operated Brain</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --black: #080808;
-    --white: #f5f2ed;
-    --cream: #ede9e0;
-    --accent: #d946ef;
-    --accent2: #a21caf;
-    --gray: #1a1a1a;
-    --gray2: #2a2a2a;
-    --muted: #888;
-    --font-display: 'Bebas Neue', sans-serif;
-    --font-body: 'DM Sans', sans-serif;
-    --font-mono: 'DM Mono', monospace;
-  }
-
-- { margin: 0; padding: 0; box-sizing: border-box; }
-
-html { scroll-behavior: smooth; }
-
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; background: #080808; }
 body {
-background: var(–black);
-color: var(–white);
-font-family: var(–font-body);
-font-weight: 300;
-overflow-x: hidden;
-cursor: none;
+  background: #080808;
+  color: #f5f2ed;
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
 }
+:root {
+  --ac: #d946ef;
+  --ac2: #a21caf;
+  --bg: #080808;
+  --bg2: #111111;
+  --bg3: #1a1a1a;
+  --wh: #f5f2ed;
+  --mu: #777;
+  --ff: 'Bebas Neue', Impact, sans-serif;
+  --fb: 'DM Sans', system-ui, sans-serif;
+  --fm: 'DM Mono', 'Courier New', monospace;
+}
+a { text-decoration: none; color: inherit; }
+button { font-family: inherit; border: none; outline: none; }
 
-/* CURSOR */
-.cursor {
-position: fixed;
-width: 12px; height: 12px;
-background: var(–accent);
-border-radius: 50%;
-pointer-events: none;
-z-index: 9999;
-transform: translate(-50%, -50%);
-transition: width .15s, height .15s, background .15s;
-mix-blend-mode: difference;
-}
-.cursor-ring {
-position: fixed;
-width: 40px; height: 40px;
-border: 1px solid rgba(217,70,239,0.5);
-border-radius: 50%;
-pointer-events: none;
-z-index: 9998;
-transform: translate(-50%, -50%);
-transition: all .08s ease;
-}
-.cursor.active { width: 6px; height: 6px; }
-
-/* NAV */
+/* ── NAV ── */
 nav {
-position: fixed;
-top: 0; left: 0; right: 0;
-z-index: 100;
-display: flex;
-align-items: center;
-justify-content: space-between;
-padding: 24px 48px;
-backdrop-filter: blur(20px);
-background: rgba(8,8,8,0.6);
-border-bottom: 1px solid rgba(255,255,255,0.05);
+position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+display: flex; align-items: center; justify-content: space-between;
+padding: 20px 48px;
+background: rgba(8,8,8,0.92);
+border-bottom: 1px solid rgba(255,255,255,0.06);
 }
-.nav-logo {
-font-family: var(–font-display);
-font-size: 28px;
-letter-spacing: 0.3em;
-color: var(–accent);
-}
-.nav-links {
-display: flex;
-gap: 40px;
-list-style: none;
-}
-.nav-links a {
-font-family: var(–font-mono);
-font-size: 11px;
-letter-spacing: 0.15em;
-text-transform: uppercase;
-color: var(–muted);
-text-decoration: none;
-transition: color .2s;
-}
-.nav-links a:hover { color: var(–accent); }
+.nav-logo { font-family: var(–ff); font-size: 26px; letter-spacing: .3em; color: var(–ac); }
+.nav-links { display: flex; gap: 36px; list-style: none; }
+.nav-links a { font-family: var(–fm); font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: var(–mu); transition: color .2s; }
+.nav-links a:hover { color: var(–ac); }
 .nav-cta {
-background: var(–accent);
-color: var(–black);
-font-family: var(–font-mono);
-font-size: 11px;
-letter-spacing: 0.15em;
-text-transform: uppercase;
-font-weight: 500;
-padding: 10px 24px;
-border: none;
-cursor: none;
-transition: all .2s;
+background: var(–ac); color: #080808;
+font-family: var(–fm); font-size: 11px; letter-spacing: .15em; text-transform: uppercase; font-weight: 500;
+padding: 10px 22px; cursor: pointer; transition: background .2s; border-radius: 0;
 }
-.nav-cta:hover { background: var(–white); }
+.nav-cta:hover { background: var(–wh); }
+@media(max-width:768px){ .nav-links{display:none;} nav{padding:16px 20px;} }
 
-/* HERO */
+/* ── HERO ── */
 .hero {
 min-height: 100vh;
-display: flex;
-flex-direction: column;
-justify-content: flex-end;
-padding: 0 48px 80px;
-position: relative;
-overflow: hidden;
+display: flex; flex-direction: column; justify-content: flex-end;
+padding: 140px 48px 80px;
+position: relative; overflow: hidden;
+background: #080808;
 }
-.hero-bg {
-position: absolute;
-inset: 0;
+.hero::before {
+content: ‘’;
+position: absolute; inset: 0; pointer-events: none;
 background:
-radial-gradient(ellipse 60% 60% at 80% 20%, rgba(217,70,239,0.08) 0%, transparent 60%),
-radial-gradient(ellipse 40% 40% at 10% 80%, rgba(162,28,175,0.06) 0%, transparent 60%),
-var(–black);
+radial-gradient(ellipse 60% 50% at 80% 10%, rgba(217,70,239,.09) 0%, transparent 60%),
+radial-gradient(ellipse 40% 40% at 5% 90%, rgba(162,28,175,.06) 0%, transparent 60%);
 }
 .hero-grid {
-position: absolute;
-inset: 0;
+position: absolute; inset: 0; pointer-events: none;
 background-image:
-linear-gradient(rgba(217,70,239,0.04) 1px, transparent 1px),
-linear-gradient(90deg, rgba(217,70,239,0.04) 1px, transparent 1px);
+linear-gradient(rgba(217,70,239,.03) 1px, transparent 1px),
+linear-gradient(90deg, rgba(217,70,239,.03) 1px, transparent 1px);
 background-size: 80px 80px;
-mask-image: radial-gradient(ellipse at 50% 50%, black 30%, transparent 80%);
 }
 .hero-tag {
-font-family: var(–font-mono);
-font-size: 10px;
-letter-spacing: 0.3em;
-text-transform: uppercase;
-color: var(–accent);
-margin-bottom: 24px;
-display: flex;
-align-items: center;
-gap: 16px;
+font-family: var(–fm); font-size: 10px; letter-spacing: .3em;
+text-transform: uppercase; color: var(–ac);
+margin-bottom: 20px; display: flex; align-items: center; gap: 14px;
+position: relative; z-index: 1;
 }
-.hero-tag::before {
-content: ‘’;
-display: block;
-width: 40px;
-height: 1px;
-background: var(–accent);
-}
+.hero-tag::before { content: ‘’; display: block; width: 36px; height: 1px; background: var(–ac); }
 .hero-title {
-font-family: var(–font-display);
-font-size: clamp(80px, 16vw, 220px);
-line-height: 0.9;
-letter-spacing: -0.01em;
-position: relative;
-z-index: 1;
+font-family: var(–ff);
+font-size: clamp(72px, 15vw, 200px);
+line-height: .9; position: relative; z-index: 1;
 }
-.hero-title .line2 {
-color: transparent;
--webkit-text-stroke: 1px rgba(255,255,255,0.3);
-padding-left: 20vw;
-}
-.hero-title .line3 {
-color: var(–accent);
-padding-left: 8vw;
-}
-.hero-sub {
-display: flex;
-align-items: flex-end;
-justify-content: space-between;
-margin-top: 48px;
-position: relative;
-z-index: 1;
-}
-.hero-desc {
-font-size: 15px;
-line-height: 1.7;
-color: rgba(245,242,237,0.6);
-max-width: 400px;
-}
-.hero-desc strong { color: var(–white); font-weight: 500; }
-.hero-actions {
-display: flex;
-gap: 16px;
-align-items: center;
-}
-.btn-primary {
-background: var(–accent);
-color: var(–black);
-font-family: var(–font-mono);
-font-size: 12px;
-letter-spacing: 0.12em;
-text-transform: uppercase;
-font-weight: 500;
-padding: 16px 36px;
-border: none;
-cursor: none;
-transition: all .25s;
-position: relative;
-overflow: hidden;
-}
-.btn-primary::after {
-content: ‘’;
-position: absolute;
-inset: 0;
-background: var(–black);
-transform: translateX(-101%);
-transition: transform .3s ease;
-}
-.btn-primary:hover::after { transform: translateX(0); }
-.btn-primary span { position: relative; z-index: 1; }
-.btn-primary:hover span { color: #d946ef; }
-.btn-outline {
-background: transparent;
-color: var(–white);
-font-family: var(–font-mono);
-font-size: 12px;
-letter-spacing: 0.12em;
-text-transform: uppercase;
-padding: 16px 36px;
-border: 1px solid rgba(255,255,255,0.2);
-cursor: none;
-transition: all .25s;
-}
-.btn-outline:hover { border-color: var(–accent); color: var(–accent); }
-
-/* TICKER */
-.ticker {
-border-top: 1px solid rgba(255,255,255,0.08);
-border-bottom: 1px solid rgba(255,255,255,0.08);
-padding: 16px 0;
-overflow: hidden;
-white-space: nowrap;
-background: var(–gray);
-}
-.ticker-inner {
-display: inline-flex;
-animation: ticker 25s linear infinite;
-gap: 0;
-}
-.ticker-item {
-font-family: var(–font-mono);
-font-size: 11px;
-letter-spacing: 0.2em;
-text-transform: uppercase;
-color: var(–muted);
-padding: 0 48px;
-}
-.ticker-item .dot { color: var(–accent); margin-right: 48px; }
-@keyframes ticker {
-from { transform: translateX(0); }
-to { transform: translateX(-50%); }
-}
-
-/* SECTION BASE */
-section { padding: 120px 48px; position: relative; }
-
-.section-label {
-font-family: var(–font-mono);
-font-size: 10px;
-letter-spacing: 0.3em;
-text-transform: uppercase;
-color: var(–accent);
-margin-bottom: 16px;
-display: flex;
-align-items: center;
-gap: 12px;
-}
-.section-label::after {
-content: ‘’;
-flex: 1;
-height: 1px;
-background: rgba(217,70,239,0.3);
-max-width: 60px;
-}
-
-/* PLATFORM */
-.platform { background: var(–gray); }
-.platform-grid {
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 2px;
-margin-top: 60px;
-}
-.platform-card {
-background: var(–black);
-padding: 48px;
-border: 1px solid rgba(255,255,255,0.04);
-transition: all .3s;
-position: relative;
-overflow: hidden;
-}
-.platform-card::before {
-content: attr(data-num);
-position: absolute;
-top: -20px;
-right: 24px;
-font-family: var(–font-display);
-font-size: 120px;
-color: rgba(217,70,239,0.05);
-transition: color .3s;
-}
-.platform-card:hover { border-color: rgba(217,70,239,0.2); }
-.platform-card:hover::before { color: rgba(217,70,239,0.1); }
-.card-icon {
-font-size: 28px;
-margin-bottom: 24px;
+.hero-title .l1 { display: block; color: #f5f2ed; }
+.hero-title .l2 {
 display: block;
+color: transparent;
+-webkit-text-stroke: 1px rgba(255,255,255,.25);
+padding-left: 18vw;
 }
-.card-title {
-font-family: var(–font-display);
-font-size: 32px;
-letter-spacing: 0.05em;
-margin-bottom: 16px;
+.hero-title .l3 { display: block; color: var(–ac); padding-left: 7vw; }
+.hero-bottom {
+display: flex; align-items: flex-end; justify-content: space-between;
+margin-top: 48px; position: relative; z-index: 1; gap: 32px; flex-wrap: wrap;
 }
-.card-desc {
-font-size: 14px;
-line-height: 1.7;
-color: rgba(245,242,237,0.5);
+.hero-desc { font-size: 15px; line-height: 1.75; color: rgba(245,242,237,.55); max-width: 380px; }
+.hero-desc strong { color: var(–wh); font-weight: 500; }
+.hero-btns { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+.btn-p {
+background: var(–ac); color: #080808;
+font-family: var(–fm); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; font-weight: 500;
+padding: 15px 34px; cursor: pointer; transition: background .25s;
 }
+.btn-p:hover { background: #f0abfc; }
+.btn-o {
+background: transparent; color: var(–wh);
+font-family: var(–fm); font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+padding: 15px 34px; border: 1px solid rgba(255,255,255,.2); cursor: pointer; transition: all .25s;
+}
+.btn-o:hover { border-color: var(–ac); color: var(–ac); }
 
-/* CALCULATOR */
-.calc-section { background: var(–black); }
-.calc-wrapper {
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 80px;
-align-items: center;
-margin-top: 60px;
+/* ── TICKER ── */
+.ticker {
+border-top: 1px solid rgba(255,255,255,.07);
+border-bottom: 1px solid rgba(255,255,255,.07);
+padding: 14px 0; overflow: hidden; background: #111; white-space: nowrap;
 }
-.calc-left h2 {
-font-family: var(–font-display);
-font-size: clamp(40px, 5vw, 72px);
-line-height: 1;
-margin-bottom: 24px;
+.ticker-track { display: inline-flex; animation: tick 28s linear infinite; }
+.ticker-item { font-family: var(–fm); font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(–mu); padding: 0 44px; }
+.ticker-item .dot { color: var(–ac); margin-right: 44px; }
+@keyframes tick { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+/* ── SECTIONS ── */
+section { padding: 110px 48px; }
+.s-label {
+font-family: var(–fm); font-size: 10px; letter-spacing: .3em;
+text-transform: uppercase; color: var(–ac);
+margin-bottom: 14px; display: flex; align-items: center; gap: 12px;
 }
-.calc-left p {
-font-size: 15px;
-line-height: 1.7;
-color: rgba(245,242,237,0.5);
-margin-bottom: 40px;
+.s-label::after { content: ‘’; width: 50px; height: 1px; background: rgba(217,70,239,.25); }
+@media(max-width:768px){ section{padding:72px 20px;} }
+
+/* ── PLATFORM ── */
+.plat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 56px; }
+@media(max-width:768px){ .plat-grid{grid-template-columns:1fr;} }
+.pcard {
+background: #080808; padding: 44px; border: 1px solid rgba(255,255,255,.04);
+transition: border-color .3s; position: relative; overflow: hidden;
 }
-.calc-box {
-background: var(–gray);
-border: 1px solid rgba(255,255,255,0.06);
-padding: 48px;
+.pcard:hover { border-color: rgba(217,70,239,.18); }
+.pcard::after {
+content: attr(data-n); position: absolute; top: -24px; right: 20px;
+font-family: var(–ff); font-size: 110px; color: rgba(217,70,239,.04);
+pointer-events: none; transition: color .3s;
 }
-.calc-row {
-margin-bottom: 32px;
+.pcard:hover::after { color: rgba(217,70,239,.09); }
+.pcard-ico { font-size: 26px; margin-bottom: 22px; display: block; }
+.pcard-title { font-family: var(–ff); font-size: 30px; letter-spacing: .04em; margin-bottom: 14px; color: var(–wh); }
+.pcard-desc { font-size: 14px; line-height: 1.7; color: rgba(245,242,237,.45); }
+
+/* ── CALC ── */
+.calc-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; margin-top: 56px; }
+@media(max-width:768px){ .calc-wrap{grid-template-columns:1fr; gap:36px;} }
+.calc-wrap h2 { font-family: var(–ff); font-size: clamp(36px,5vw,68px); line-height: 1.05; margin-bottom: 20px; }
+.calc-wrap p { font-size: 14px; line-height: 1.75; color: rgba(245,242,237,.5); margin-bottom: 32px; }
+.mini-plans { display: flex; gap: 2px; flex-wrap: wrap; }
+.mini-plan { background: #1a1a1a; border: 1px solid rgba(255,255,255,.05); padding: 18px 22px; flex: 1; min-width: 120px; }
+.mini-plan-tier { font-family: var(–fm); font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(–mu); margin-bottom: 8px; }
+.mini-plan-price { font-family: var(–ff); font-size: 26px; color: var(–ac); }
+.mini-plan-unit { font-family: var(–fm); font-size: 9px; color: var(–mu); margin-top: 2px; }
+.calc-box { background: #1a1a1a; border: 1px solid rgba(255,255,255,.06); padding: 44px; }
+.c-row { margin-bottom: 30px; }
+.c-lbl {
+font-family: var(–fm); font-size: 10px; letter-spacing: .15em;
+text-transform: uppercase; color: var(–mu);
+margin-bottom: 14px; display: flex; justify-content: space-between;
 }
-.calc-label {
-font-family: var(–font-mono);
-font-size: 11px;
-letter-spacing: 0.15em;
-text-transform: uppercase;
-color: var(–muted);
-margin-bottom: 16px;
-display: flex;
-justify-content: space-between;
+.c-lbl span { color: var(–ac); font-size: 13px; letter-spacing: .05em; }
+input[type=range] {
+-webkit-appearance: none; appearance: none;
+width: 100%; height: 2px; background: rgba(255,255,255,.1);
+outline: none; cursor: pointer;
 }
-.calc-label span {
-color: var(–accent);
-font-size: 13px;
-}
-.calc-slider {
--webkit-appearance: none;
-appearance: none;
-width: 100%;
-height: 2px;
-background: rgba(255,255,255,0.1);
-outline: none;
-cursor: none;
-position: relative;
-}
-.calc-slider::-webkit-slider-thumb {
--webkit-appearance: none;
-width: 20px; height: 20px;
-background: var(–accent);
-border-radius: 50%;
-cursor: none;
+input[type=range]::-webkit-slider-thumb {
+-webkit-appearance: none; width: 18px; height: 18px;
+background: var(–ac); border-radius: 50%; cursor: pointer;
 transition: transform .15s;
 }
-.calc-slider::-webkit-slider-thumb:hover { transform: scale(1.3); }
+input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.3); }
+input[type=range]::-moz-range-thumb {
+width: 18px; height: 18px; background: var(–ac); border-radius: 50%;
+border: none; cursor: pointer;
+}
 .calc-result {
-background: var(–black);
-border: 1px solid rgba(217,70,239,0.3);
-padding: 32px;
-text-align: center;
-margin-top: 8px;
+background: #080808; border: 1px solid rgba(217,70,239,.25);
+padding: 28px 32px; text-align: center; margin-bottom: 16px;
 }
-.calc-result-label {
-font-family: var(–font-mono);
-font-size: 10px;
-letter-spacing: 0.2em;
-text-transform: uppercase;
-color: var(–muted);
-margin-bottom: 12px;
+.cr-label { font-family: var(–fm); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(–mu); margin-bottom: 10px; }
+.cr-num { font-family: var(–ff); font-size: 60px; color: var(–ac); line-height: 1; transition: transform .15s; }
+.cr-unit { font-family: var(–fm); font-size: 11px; color: var(–mu); margin-top: 6px; }
+.calc-suggest {
+background: #080808; border: 1px solid rgba(255,255,255,.06);
+padding: 18px 22px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
 }
-.calc-result-num {
-font-family: var(–font-display);
-font-size: 64px;
-color: var(–accent);
-line-height: 1;
-}
-.calc-result-unit {
-font-family: var(–font-mono);
-font-size: 12px;
-color: var(–muted);
-margin-top: 8px;
-}
-.calc-plan-suggest {
-margin-top: 24px;
-padding: 20px;
-border: 1px solid rgba(255,255,255,0.06);
-display: flex;
-justify-content: space-between;
-align-items: center;
-}
-.plan-name {
-font-family: var(–font-display);
-font-size: 24px;
-letter-spacing: 0.05em;
-}
-.plan-price {
-font-family: var(–font-display);
-font-size: 36px;
-color: var(–accent);
-}
+.cs-label { font-family: var(–fm); font-size: 9px; letter-spacing: .15em; text-transform: uppercase; color: var(–mu); margin-bottom: 5px; }
+.cs-plan { font-family: var(–ff); font-size: 22px; color: var(–wh); }
+.cs-price { font-family: var(–ff); font-size: 32px; color: var(–ac); }
 
-/* PRICING */
-.pricing-section { background: var(–gray); }
-.pricing-title {
-font-family: var(–font-display);
-font-size: clamp(48px, 7vw, 96px);
-margin-bottom: 60px;
-line-height: 1;
+/* ── PRICING ── */
+.price-title { font-family: var(–ff); font-size: clamp(44px,7vw,90px); line-height: 1; margin-bottom: 56px; }
+.price-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; }
+@media(max-width:768px){ .price-grid{grid-template-columns:1fr;} }
+.prc {
+background: #080808; padding: 44px; border: 1px solid rgba(255,255,255,.05);
+transition: border-color .3s; display: flex; flex-direction: column;
 }
-.pricing-grid {
-display: grid;
-grid-template-columns: repeat(3, 1fr);
-gap: 2px;
+.prc:hover { border-color: rgba(217,70,239,.2); }
+.prc.hot { background: linear-gradient(145deg,#d946ef 0%,#a21caf 100%); border-color: var(–ac); }
+.prc-tier { font-family: var(–fm); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(–mu); margin-bottom: 28px; }
+.prc.hot .prc-tier { color: rgba(8,8,8,.7); }
+.prc-num { font-family: var(–ff); font-size: 76px; line-height: 1; color: var(–wh); margin-bottom: 4px; }
+.prc.hot .prc-num { color: #080808; }
+.prc-cur { font-family: var(–fm); font-size: 13px; color: var(–mu); margin-bottom: 28px; }
+.prc.hot .prc-cur { color: rgba(8,8,8,.6); }
+.prc-feats { list-style: none; margin-bottom: 36px; flex: 1; }
+.prc-feats li {
+font-size: 13px; color: rgba(245,242,237,.55); padding: 9px 0;
+border-bottom: 1px solid rgba(255,255,255,.05);
+display: flex; align-items: center; gap: 10px;
 }
-.pricing-card {
-background: var(–black);
-padding: 48px;
-border: 1px solid rgba(255,255,255,0.04);
-transition: all .3s;
-position: relative;
+.prc.hot .prc-feats li { color: rgba(8,8,8,.75); border-color: rgba(8,8,8,.1); }
+.prc-feats li::before { content: “—”; color: var(–ac); font-size: 10px; flex-shrink: 0; }
+.prc.hot .prc-feats li::before { color: rgba(8,8,8,.5); }
+.prc-btn {
+width: 100%; padding: 15px;
+font-family: var(–fm); font-size: 11px; letter-spacing: .15em; text-transform: uppercase;
+background: transparent; border: 1px solid rgba(255,255,255,.15); color: var(–wh);
+cursor: pointer; transition: all .25s;
 }
-.pricing-card.featured {
-background: linear-gradient(135deg, #d946ef 0%, #a21caf 100%);
-border-color: #d946ef;
-}
-.pricing-card.featured * { color: var(–black) !important; }
-.pricing-card:hover:not(.featured) { border-color: rgba(217,70,239,0.3); }
-.pricing-tier {
-font-family: var(–font-mono);
-font-size: 11px;
-letter-spacing: 0.2em;
-text-transform: uppercase;
-color: var(–muted);
-margin-bottom: 32px;
-}
-.pricing-num {
-font-family: var(–font-display);
-font-size: 80px;
-line-height: 1;
-margin-bottom: 4px;
-}
-.pricing-currency {
-font-family: var(–font-mono);
-font-size: 14px;
-color: var(–muted);
-margin-bottom: 32px;
-}
-.pricing-features {
-list-style: none;
-margin-bottom: 40px;
-}
-.pricing-features li {
-font-size: 13px;
-color: rgba(245,242,237,0.6);
-padding: 10px 0;
-border-bottom: 1px solid rgba(255,255,255,0.05);
-display: flex;
-align-items: center;
-gap: 10px;
-}
-.pricing-features li::before { content: ‘—’; color: var(–accent); font-size: 10px; }
-.pricing-card.featured .pricing-features li::before { color: var(–black); }
-.pricing-cta {
-width: 100%;
-padding: 16px;
-font-family: var(–font-mono);
-font-size: 11px;
-letter-spacing: 0.15em;
-text-transform: uppercase;
-background: transparent;
-border: 1px solid rgba(255,255,255,0.15);
-color: var(–white);
-cursor: none;
-transition: all .25s;
-}
-.pricing-cta:hover { background: var(–accent); border-color: var(–accent); color: var(–black); }
-.pricing-card.featured .pricing-cta {
-background: var(–black);
-border-color: var(–black);
-color: var(–accent);
-}
+.prc-btn:hover { background: var(–ac); border-color: var(–ac); color: #080808; }
+.prc.hot .prc-btn { background: #080808; border-color: #080808; color: var(–ac); }
+.prc.hot .prc-btn:hover { background: var(–wh); color: var(–ac2); }
 
-/* CALLBACK */
-.callback-section {
-background: var(–black);
-border-top: 1px solid rgba(255,255,255,0.05);
-border-bottom: 1px solid rgba(255,255,255,0.05);
+/* ── CREDITS ── */
+.credits-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; margin-top: 56px; }
+@media(max-width:768px){ .credits-grid{grid-template-columns:1fr;} }
+.cred {
+background: #1a1a1a; border: 1px solid rgba(255,255,255,.05);
+padding: 38px 36px; transition: border-color .3s; position: relative; overflow: hidden;
 }
-.callback-inner {
-display: flex;
-align-items: center;
-justify-content: space-between;
-gap: 80px;
-}
-.callback-text h2 {
-font-family: var(–font-display);
-font-size: clamp(48px, 6vw, 88px);
-line-height: 1;
-margin-bottom: 16px;
-}
-.callback-text p {
-font-size: 14px;
-color: var(–muted);
-max-width: 360px;
-line-height: 1.7;
-}
-.callback-form {
-background: var(–gray);
-padding: 48px;
-border: 1px solid rgba(255,255,255,0.06);
-min-width: 420px;
-}
-.form-field {
-margin-bottom: 20px;
-}
-.form-field label {
-display: block;
-font-family: var(–font-mono);
-font-size: 10px;
-letter-spacing: 0.2em;
-text-transform: uppercase;
-color: var(–muted);
-margin-bottom: 10px;
-}
-.form-field input {
-width: 100%;
-background: var(–black);
-border: 1px solid rgba(255,255,255,0.08);
-color: var(–white);
-font-family: var(–font-body);
-font-size: 15px;
-padding: 14px 18px;
-outline: none;
-transition: border-color .2s;
-}
-.form-field input:focus { border-color: var(–accent); }
-.form-field input::placeholder { color: rgba(255,255,255,0.2); }
-.callback-btn {
-width: 100%;
-padding: 18px;
-background: var(–accent);
-color: var(–black);
-font-family: var(–font-display);
-font-size: 20px;
-letter-spacing: 0.08em;
-border: none;
-cursor: none;
-transition: all .25s;
-position: relative;
-overflow: hidden;
-margin-top: 8px;
-}
-.callback-btn:hover { background: var(–white); }
-.callback-success {
-display: none;
-text-align: center;
-padding: 32px 0;
-}
-.callback-success .check {
-font-size: 48px;
-margin-bottom: 16px;
-}
-.callback-success p {
-font-family: var(–font-mono);
-font-size: 12px;
-letter-spacing: 0.15em;
-color: var(–accent);
-text-transform: uppercase;
-}
+.cred:hover { border-color: rgba(217,70,239,.2); }
+.cred.hot { background: linear-gradient(145deg,#1a0820 0%,#0d0d0d 100%); border-color: rgba(217,70,239,.3); }
+.cred-pop { font-family: var(–fm); font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(–ac); margin-bottom: 12px; }
+.cred-ghost { position: absolute; top: -20px; right: 12px; font-family: var(–ff); font-size: 90px; color: rgba(217,70,239,.04); pointer-events: none; }
+.cred-usd { font-family: var(–ff); font-size: 60px; color: var(–ac); line-height: 1; }
+.cred-mins { font-family: var(–fm); font-size: 13px; color: var(–wh); font-weight: 500; margin: 12px 0 4px; }
+.cred-tag { font-family: var(–fm); font-size: 9px; color: var(–mu); letter-spacing: .15em; text-transform: uppercase; }
 
-/* CHATBOT */
-.chat-fab {
-position: fixed;
-bottom: 32px;
-right: 32px;
-z-index: 200;
+/* ── CALLBACK ── */
+.cb-inner {
+display: flex; align-items: center; justify-content: space-between;
+gap: 72px; flex-wrap: wrap;
 }
-.chat-trigger {
-width: 64px;
-height: 64px;
-background: var(–accent);
-border: none;
-border-radius: 50%;
-cursor: none;
-display: flex;
-align-items: center;
-justify-content: center;
-font-size: 24px;
-transition: all .3s;
-box-shadow: 0 8px 32px rgba(217,70,239,0.4);
-position: relative;
+.cb-text h2 { font-family: var(–ff); font-size: clamp(44px,6vw,84px); line-height: 1; margin-bottom: 16px; }
+.cb-text p { font-size: 14px; color: var(–mu); max-width: 340px; line-height: 1.75; }
+.cb-badge { display: flex; align-items: center; gap: 14px; margin-top: 28px; }
+.cb-badge-ico {
+width: 46px; height: 46px; border-radius: 50%;
+background: rgba(217,70,239,.1); border: 1px solid rgba(217,70,239,.2);
+display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;
 }
-.chat-trigger::before {
-content: ‘’;
-position: absolute;
-inset: -4px;
-border-radius: 50%;
-border: 1px solid rgba(217,70,239,0.4);
-animation: pulse 2s infinite;
+.cb-badge-txt { font-family: var(–fm); font-size: 10px; color: var(–mu); letter-spacing: .1em; text-transform: uppercase; line-height: 1.8; }
+.cb-badge-txt strong { color: var(–ac); }
+.cb-form {
+background: #1a1a1a; border: 1px solid rgba(255,255,255,.07);
+padding: 44px; min-width: 400px; flex-shrink: 0;
 }
-@keyframes pulse {
-0%, 100% { transform: scale(1); opacity: 1; }
-50% { transform: scale(1.15); opacity: 0; }
+@media(max-width:768px){ .cb-form{min-width:unset; width:100%;} .cb-inner{flex-direction:column;} }
+.cb-form-title { font-family: var(–ff); font-size: 26px; letter-spacing: .05em; margin-bottom: 6px; }
+.cb-form-sub { font-size: 13px; color: var(–mu); margin-bottom: 28px; line-height: 1.6; }
+.f-field { margin-bottom: 18px; }
+.f-field label { display: block; font-family: var(–fm); font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(–mu); margin-bottom: 8px; }
+.f-field input {
+width: 100%; background: #080808; border: 1px solid rgba(255,255,255,.08);
+color: var(–wh); font-family: var(–fb); font-size: 15px;
+padding: 13px 16px; outline: none; transition: border-color .2s; border-radius: 0;
 }
-.chat-trigger:hover { transform: scale(1.1); background: var(–white); }
-.chat-trigger .chat-icon { transition: all .3s; }
-.chat-trigger .close-icon { display: none; }
-.chat-trigger.open .chat-icon { display: none; }
-.chat-trigger.open .close-icon { display: block; }
+.f-field input:focus { border-color: var(–ac); }
+.f-field input::placeholder { color: rgba(255,255,255,.18); }
+.cb-btn {
+width: 100%; padding: 17px;
+background: var(–ac); color: #080808;
+font-family: var(–ff); font-size: 20px; letter-spacing: .06em;
+cursor: pointer; transition: background .25s; margin-top: 6px; border: none;
+}
+.cb-btn:hover { background: #f0abfc; }
+.cb-success { display: none; text-align: center; padding: 28px 0; }
+.cb-success .ck { font-size: 44px; margin-bottom: 14px; }
+.cb-success p { font-family: var(–fm); font-size: 11px; letter-spacing: .15em; color: var(–ac); text-transform: uppercase; }
+.cb-success .ph { font-family: var(–ff); font-size: 28px; color: var(–ac); letter-spacing: .1em; margin-top: 16px; }
 
-.chat-window {
-position: fixed;
-bottom: 112px;
-right: 32px;
-width: 380px;
-background: var(–gray);
-border: 1px solid rgba(255,255,255,0.08);
-z-index: 199;
-transform: translateY(20px) scale(0.95);
-opacity: 0;
-pointer-events: none;
-transition: all .3s cubic-bezier(0.34, 1.56, 0.64, 1);
-display: flex;
-flex-direction: column;
-max-height: 520px;
-box-shadow: 0 24px 80px rgba(0,0,0,0.6);
-}
-.chat-window.open {
-transform: translateY(0) scale(1);
-opacity: 1;
-pointer-events: all;
-}
-.chat-header {
-padding: 20px 24px;
-border-bottom: 1px solid rgba(255,255,255,0.06);
-display: flex;
-align-items: center;
-gap: 14px;
-background: var(–black);
-}
-.chat-avatar {
-width: 40px;
-height: 40px;
-background: var(–accent);
-border-radius: 50%;
-display: flex;
-align-items: center;
-justify-content: center;
-font-family: var(–font-display);
-font-size: 16px;
-color: var(–black);
-flex-shrink: 0;
-}
-.chat-header-info { flex: 1; }
-.chat-header-name {
-font-family: var(–font-display);
-font-size: 18px;
-letter-spacing: 0.05em;
-}
-.chat-header-status {
-font-family: var(–font-mono);
-font-size: 10px;
-color: var(–accent);
-display: flex;
-align-items: center;
-gap: 6px;
-}
-.chat-header-status::before {
-content: ‘’;
-width: 6px; height: 6px;
-background: var(–accent);
-border-radius: 50%;
-animation: blink 1.5s infinite;
-}
-@keyframes blink {
-0%, 100% { opacity: 1; }
-50% { opacity: 0.3; }
-}
-.chat-messages {
-flex: 1;
-overflow-y: auto;
-padding: 24px;
-display: flex;
-flex-direction: column;
-gap: 16px;
-min-height: 280px;
-max-height: 320px;
-scrollbar-width: thin;
-scrollbar-color: rgba(255,255,255,0.1) transparent;
-}
-.msg {
-max-width: 80%;
-animation: msgIn .3s ease;
-}
-@keyframes msgIn {
-from { opacity: 0; transform: translateY(8px); }
-to { opacity: 1; transform: translateY(0); }
-}
-.msg.bot { align-self: flex-start; }
-.msg.user { align-self: flex-end; }
-.msg-bubble {
-padding: 12px 16px;
-font-size: 13px;
-line-height: 1.6;
-}
-.msg.bot .msg-bubble {
-background: var(–black);
-border: 1px solid rgba(255,255,255,0.06);
-color: rgba(245,242,237,0.8);
-border-radius: 0 12px 12px 12px;
-}
-.msg.user .msg-bubble {
-background: var(–accent);
-color: var(–black);
-font-weight: 500;
-border-radius: 12px 12px 0 12px;
-}
-.chat-quick-replies {
-display: flex;
-flex-wrap: wrap;
-gap: 8px;
-padding: 0 24px 16px;
-}
-.quick-reply {
-background: transparent;
-border: 1px solid rgba(217,70,239,0.4);
-color: var(–accent);
-font-family: var(–font-mono);
-font-size: 10px;
-letter-spacing: 0.1em;
-text-transform: uppercase;
-padding: 8px 14px;
-cursor: none;
-transition: all .2s;
-}
-.quick-reply:hover { background: rgba(217,70,239,0.12); }
-.chat-input-row {
-padding: 16px 24px;
-border-top: 1px solid rgba(255,255,255,0.06);
-display: flex;
-gap: 12px;
-}
-.chat-input {
-flex: 1;
-background: var(–black);
-border: 1px solid rgba(255,255,255,0.08);
-color: var(–white);
-font-family: var(–font-body);
-font-size: 13px;
-padding: 10px 16px;
-outline: none;
-transition: border-color .2s;
-}
-.chat-input:focus { border-color: var(–accent); }
-.chat-input::placeholder { color: rgba(255,255,255,0.2); }
-.chat-send {
-background: var(–accent);
-border: none;
-color: var(–black);
-width: 40px;
-height: 40px;
-display: flex;
-align-items: center;
-justify-content: center;
-cursor: none;
-transition: background .2s;
-font-size: 16px;
-flex-shrink: 0;
-}
-.chat-send:hover { background: var(–white); }
-.typing-indicator {
-display: flex;
-gap: 4px;
-padding: 12px 16px;
-background: var(–black);
-border: 1px solid rgba(255,255,255,0.06);
-border-radius: 0 12px 12px 12px;
-width: fit-content;
-}
-.typing-dot {
-width: 6px; height: 6px;
-background: var(–muted);
-border-radius: 50%;
-animation: typingBounce .8s infinite;
-}
-.typing-dot:nth-child(2) { animation-delay: .15s; }
-.typing-dot:nth-child(3) { animation-delay: .3s; }
-@keyframes typingBounce {
-0%, 100% { transform: translateY(0); }
-50% { transform: translateY(-5px); background: var(–accent); }
-}
-
-/* FOOTER */
+/* ── FOOTER ── */
 footer {
-padding: 60px 48px;
-border-top: 1px solid rgba(255,255,255,0.06);
-display: flex;
-justify-content: space-between;
-align-items: center;
+padding: 56px 48px; border-top: 1px solid rgba(255,255,255,.06);
+display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px;
+background: #080808;
 }
-.footer-logo {
-font-family: var(–font-display);
-font-size: 32px;
-letter-spacing: 0.2em;
-color: var(–accent);
-}
-.footer-links {
-display: flex;
-gap: 32px;
-list-style: none;
-}
-.footer-links a {
-font-family: var(–font-mono);
-font-size: 10px;
-letter-spacing: 0.15em;
-text-transform: uppercase;
-color: var(–muted);
-text-decoration: none;
-transition: color .2s;
-}
-.footer-links a:hover { color: var(–white); }
-.footer-copy {
-font-family: var(–font-mono);
-font-size: 10px;
-color: rgba(255,255,255,0.15);
-letter-spacing: 0.1em;
-}
+.f-logo { font-family: var(–ff); font-size: 30px; letter-spacing: .2em; color: var(–ac); }
+.f-links { display: flex; gap: 28px; list-style: none; flex-wrap: wrap; }
+.f-links a { font-family: var(–fm); font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: var(–mu); transition: color .2s; }
+.f-links a:hover { color: var(–wh); }
+.f-copy { font-family: var(–fm); font-size: 10px; color: rgba(255,255,255,.14); letter-spacing: .08em; }
+@media(max-width:768px){ footer{flex-direction:column; text-align:center; padding:40px 20px;} .f-links{justify-content:center;} }
 
-/* SCROLL REVEAL */
-.reveal {
-opacity: 0;
-transform: translateY(30px);
-transition: opacity .7s ease, transform .7s ease;
+/* ── CHAT FAB ── */
+.chat-fab { position: fixed; bottom: 28px; right: 28px; z-index: 200; }
+.chat-trig {
+width: 62px; height: 62px; background: var(–ac); border: none; border-radius: 50%;
+cursor: pointer; display: flex; align-items: center; justify-content: center;
+font-size: 22px; transition: transform .3s, background .2s;
+box-shadow: 0 8px 28px rgba(217,70,239,.35);
 }
-.reveal.visible {
-opacity: 1;
-transform: translateY(0);
+.chat-trig:hover { transform: scale(1.08); background: #f0abfc; }
+.chat-trig.open { background: #1a1a1a; }
+.chat-trig .ico-chat { display: block; }
+.chat-trig .ico-close { display: none; }
+.chat-trig.open .ico-chat { display: none; }
+.chat-trig.open .ico-close { display: block; }
+.chat-pulse {
+position: absolute; inset: -4px; border-radius: 50%;
+border: 1px solid rgba(217,70,239,.35);
+animation: pulse 2.2s ease infinite; pointer-events: none;
 }
+@keyframes pulse { 0%,100%{transform:scale(1);opacity:1} 60%{transform:scale(1.2);opacity:0} }
+.chat-win {
+position: fixed; bottom: 104px; right: 28px;
+width: 370px; background: #1a1a1a; border: 1px solid rgba(255,255,255,.08);
+z-index: 199; display: flex; flex-direction: column; max-height: 510px;
+box-shadow: 0 24px 72px rgba(0,0,0,.7);
+opacity: 0; transform: translateY(16px) scale(.97); pointer-events: none;
+transition: opacity .25s ease, transform .25s ease;
+}
+.chat-win.open { opacity: 1; transform: translateY(0) scale(1); pointer-events: all; }
+@media(max-width:500px){ .chat-win{width:calc(100vw - 32px); right:16px;} }
+.chat-hdr {
+padding: 18px 22px; background: #080808;
+border-bottom: 1px solid rgba(255,255,255,.06); display: flex; align-items: center; gap: 12px;
+}
+.chat-av {
+width: 38px; height: 38px; background: var(–ac); border-radius: 50%;
+display: flex; align-items: center; justify-content: center;
+font-family: var(–ff); font-size: 15px; color: #080808; flex-shrink: 0;
+}
+.chat-hdr-name { font-family: var(–ff); font-size: 17px; letter-spacing: .04em; color: var(–wh); }
+.chat-hdr-st { font-family: var(–fm); font-size: 10px; color: var(–ac); display: flex; align-items: center; gap: 5px; }
+.chat-hdr-st::before { content: ‘’; width: 5px; height: 5px; background: var(–ac); border-radius: 50%; animation: blink 1.5s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+.chat-msgs {
+flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column;
+gap: 14px; min-height: 260px; max-height: 300px;
+scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.1) transparent;
+}
+.msg { max-width: 82%; }
+.msg.bot { align-self: flex-start; }
+.msg.usr { align-self: flex-end; }
+.msg-b {
+padding: 11px 15px; font-size: 13px; line-height: 1.6;
+animation: msgin .25s ease;
+}
+@keyframes msgin { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+.msg.bot .msg-b { background: #080808; border: 1px solid rgba(255,255,255,.06); color: rgba(245,242,237,.8); border-radius: 0 10px 10px 10px; }
+.msg.usr .msg-b { background: var(–ac); color: #080808; font-weight: 500; border-radius: 10px 10px 0 10px; }
+.chat-qr { display: flex; flex-wrap: wrap; gap: 7px; padding: 0 20px 14px; }
+.qr-btn {
+background: transparent; border: 1px solid rgba(217,70,239,.3); color: var(–ac);
+font-family: var(–fm); font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
+padding: 7px 12px; cursor: pointer; transition: background .2s;
+}
+.qr-btn:hover { background: rgba(217,70,239,.12); }
+.chat-inp-row {
+padding: 14px 20px; border-top: 1px solid rgba(255,255,255,.06);
+display: flex; gap: 10px;
+}
+.chat-inp {
+flex: 1; background: #080808; border: 1px solid rgba(255,255,255,.08);
+color: var(–wh); font-family: var(–fb); font-size: 13px;
+padding: 9px 14px; outline: none; transition: border-color .2s; border-radius: 0;
+}
+.chat-inp:focus { border-color: var(–ac); }
+.chat-inp::placeholder { color: rgba(255,255,255,.18); }
+.chat-send {
+background: var(–ac); border: none; color: #080808;
+width: 38px; height: 38px; cursor: pointer; font-size: 15px;
+display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+transition: background .2s;
+}
+.chat-send:hover { background: #f0abfc; }
+.typing { display: flex; gap: 4px; padding: 11px 15px; background: #080808; border: 1px solid rgba(255,255,255,.06); border-radius: 0 10px 10px 10px; width: fit-content; }
+.td { width: 5px; height: 5px; background: var(–mu); border-radius: 50%; animation: tb .8s infinite; }
+.td:nth-child(2){animation-delay:.15s} .td:nth-child(3){animation-delay:.3s}
+@keyframes tb { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px);background:var(–ac)} }
 
-/* MOBILE */
-@media (max-width: 768px) {
-nav { padding: 20px 24px; }
-.nav-links { display: none; }
-.hero { padding: 0 24px 60px; }
-.hero-title .line2 { padding-left: 10vw; }
-.hero-title .line3 { padding-left: 4vw; }
-section { padding: 80px 24px; }
-.platform-grid { grid-template-columns: 1fr; }
-.calc-wrapper { grid-template-columns: 1fr; gap: 40px; }
-.pricing-grid { grid-template-columns: 1fr; }
-.callback-inner { flex-direction: column; }
-.callback-form { min-width: unset; width: 100%; }
-.hero-sub { flex-direction: column; gap: 24px; align-items: flex-start; }
-.chat-window { width: calc(100vw - 48px); right: 24px; }
-footer { flex-direction: column; gap: 24px; text-align: center; }
-.footer-links { flex-wrap: wrap; justify-content: center; }
-}
+/* ── REVEAL ── */
+.rv { opacity: 0; transform: translateY(28px); transition: opacity .65s ease, transform .65s ease; }
+.rv.on { opacity: 1; transform: translateY(0); }
 </style>
 
 </head>
 <body>
-
-<!-- CURSOR -->
-
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
 
 <!-- NAV -->
 
@@ -915,23 +420,22 @@ footer { flex-direction: column; gap: 24px; text-align: center; }
 <!-- HERO -->
 
 <section class="hero">
-  <div class="hero-bg"></div>
   <div class="hero-grid"></div>
-  <div class="hero-tag">Schweizer AI Plattform — Seit jetzt</div>
+  <p class="hero-tag">Schweizer AI Plattform — S.N.O.B.AI</p>
   <h1 class="hero-title">
-    <div class="line1">NETWORK</div>
-    <div class="line2">OPERATED</div>
-    <div class="line3">BRAIN</div>
+    <span class="l1">NETWORK</span>
+    <span class="l2">OPERATED</span>
+    <span class="l3">BRAIN</span>
   </h1>
-  <div class="hero-sub">
+  <div class="hero-bottom">
     <p class="hero-desc">
       <strong>SNOB automatisiert Calls, Chat und Prozesse.</strong><br>
       Kein manueller Support mehr. Kein verlorener Lead mehr.<br>
       Das AI-Gehirn für dein Unternehmen.
     </p>
-    <div class="hero-actions">
-      <button class="btn-primary" onclick="document.getElementById('calculator').scrollIntoView({behavior:'smooth'})"><span>Kalkulator starten</span></button>
-      <button class="btn-outline" onclick="document.getElementById('callback').scrollIntoView({behavior:'smooth'})">Demo anfragen</button>
+    <div class="hero-btns">
+      <button class="btn-p" onclick="document.getElementById('calculator').scrollIntoView({behavior:'smooth'})">Kalkulator starten</button>
+      <button class="btn-o" onclick="document.getElementById('callback').scrollIntoView({behavior:'smooth'})">Demo anfragen</button>
     </div>
   </div>
 </section>
@@ -939,238 +443,208 @@ footer { flex-direction: column; gap: 24px; text-align: center; }
 <!-- TICKER -->
 
 <div class="ticker">
-  <div class="ticker-inner" id="ticker">
-    <span class="ticker-item"><span class="dot">✦</span> AI Calls Inbound & Outbound</span>
-    <span class="ticker-item"><span class="dot">✦</span> Multilingual DE / EN / FR</span>
-    <span class="ticker-item"><span class="dot">✦</span> Swiss Made</span>
-    <span class="ticker-item"><span class="dot">✦</span> API Integration</span>
-    <span class="ticker-item"><span class="dot">✦</span> Echtzeit-Reaktionen</span>
-    <span class="ticker-item"><span class="dot">✦</span> Digitale Mitarbeiter</span>
-    <span class="ticker-item"><span class="dot">✦</span> CRM & Automation</span>
-    <span class="ticker-item"><span class="dot">✦</span> AI Calls Inbound & Outbound</span>
-    <span class="ticker-item"><span class="dot">✦</span> Multilingual DE / EN / FR</span>
-    <span class="ticker-item"><span class="dot">✦</span> Swiss Made</span>
-    <span class="ticker-item"><span class="dot">✦</span> API Integration</span>
-    <span class="ticker-item"><span class="dot">✦</span> Echtzeit-Reaktionen</span>
-    <span class="ticker-item"><span class="dot">✦</span> Digitale Mitarbeiter</span>
-    <span class="ticker-item"><span class="dot">✦</span> CRM & Automation</span>
+  <div class="ticker-track">
+    <span class="ticker-item"><span class="dot">✦</span>AI Calls Inbound &amp; Outbound</span>
+    <span class="ticker-item"><span class="dot">✦</span>Multilingual DE / EN / FR</span>
+    <span class="ticker-item"><span class="dot">✦</span>Swiss Made</span>
+    <span class="ticker-item"><span class="dot">✦</span>API Integration</span>
+    <span class="ticker-item"><span class="dot">✦</span>Echtzeit-Reaktionen</span>
+    <span class="ticker-item"><span class="dot">✦</span>Digitale Mitarbeiter</span>
+    <span class="ticker-item"><span class="dot">✦</span>CRM &amp; Automation</span>
+    <span class="ticker-item"><span class="dot">✦</span>AI Calls Inbound &amp; Outbound</span>
+    <span class="ticker-item"><span class="dot">✦</span>Multilingual DE / EN / FR</span>
+    <span class="ticker-item"><span class="dot">✦</span>Swiss Made</span>
+    <span class="ticker-item"><span class="dot">✦</span>API Integration</span>
+    <span class="ticker-item"><span class="dot">✦</span>Echtzeit-Reaktionen</span>
+    <span class="ticker-item"><span class="dot">✦</span>Digitale Mitarbeiter</span>
+    <span class="ticker-item"><span class="dot">✦</span>CRM &amp; Automation</span>
   </div>
 </div>
 
 <!-- PLATFORM -->
 
-<section class="platform" id="platform">
-  <div class="section-label">Platform Core</div>
-  <div class="platform-grid">
-    <div class="platform-card reveal" data-num="01">
-      <span class="card-icon">🧠</span>
-      <div class="card-title">AI Brain</div>
-      <p class="card-desc">Versteht Anfragen, trifft Entscheidungen und reagiert in Echtzeit auf Basis von Kontext, Regeln und Business-Logik.</p>
+<section id="platform" style="background:#111;">
+  <div class="s-label">Platform Core</div>
+  <div class="plat-grid">
+    <div class="pcard rv" data-n="01">
+      <span class="pcard-ico">🧠</span>
+      <div class="pcard-title">AI Brain</div>
+      <p class="pcard-desc">Versteht Anfragen, trifft Entscheidungen und reagiert in Echtzeit auf Basis von Kontext, Regeln und Business-Logik.</p>
     </div>
-    <div class="platform-card reveal" data-num="02">
-      <span class="card-icon">📞</span>
-      <div class="card-title">Communication Layer</div>
-      <p class="card-desc">Inbound Calls, Outbound Calls, Chat und Voice AI in einer einheitlichen Interaktionsschicht — 24/7 aktiv.</p>
+    <div class="pcard rv" data-n="02">
+      <span class="pcard-ico">📞</span>
+      <div class="pcard-title">Communication Layer</div>
+      <p class="pcard-desc">Inbound Calls, Outbound Calls, Chat und Voice AI in einer einheitlichen Interaktionsschicht — 24/7 aktiv.</p>
     </div>
-    <div class="platform-card reveal" data-num="03">
-      <span class="card-icon">⚡</span>
-      <div class="card-title">Interface Layer</div>
-      <p class="card-desc">Dynamische Dashboards und kontextbezogene Interaktionen. Volle Kontrolle, null Komplexität.</p>
+    <div class="pcard rv" data-n="03">
+      <span class="pcard-ico">⚡</span>
+      <div class="pcard-title">Interface Layer</div>
+      <p class="pcard-desc">Dynamische Dashboards und kontextbezogene Interaktionen. Volle Kontrolle, null Komplexität.</p>
     </div>
-    <div class="platform-card reveal" data-num="04">
-      <span class="card-icon">🔌</span>
-      <div class="card-title">Automation Layer</div>
-      <p class="card-desc">CRM, Kalender, Buchungen, Zahlungen und operative Workflows direkt verbunden mit dem AI-Verhalten.</p>
+    <div class="pcard rv" data-n="04">
+      <span class="pcard-ico">🔌</span>
+      <div class="pcard-title">Automation Layer</div>
+      <p class="pcard-desc">CRM, Kalender, Buchungen, Zahlungen und operative Workflows direkt verbunden mit dem AI-Verhalten.</p>
     </div>
   </div>
 </section>
 
 <!-- CALCULATOR -->
 
-<section class="calc-section" id="calculator">
-  <div class="calc-wrapper">
-    <div class="calc-left reveal">
-      <div class="section-label">Kalkulator</div>
+<section id="calculator" style="background:#080808;">
+  <div class="calc-wrap">
+    <div class="rv">
+      <div class="s-label">Kalkulator</div>
       <h2>Wie viel brauchst<br>du wirklich?</h2>
-      <p>Berechne dein ideales Paket basierend auf deinen Calls und durchschnittlicher Gesprächsdauer. Keine Versteckten Kosten, keine Überraschungen.</p>
-      <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 8px;">
-        <div style="display: flex; gap: 16px;">
-          <div style="border: 1px solid rgba(255,255,255,0.06); padding: 20px 24px; flex: 1;">
-            <div style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px;">Basic</div>
-            <div style="font-family: var(--font-display); font-size: 28px; color: var(--accent);">333</div>
-            <div style="font-family: var(--font-mono); font-size: 10px; color: var(--muted);">CHF / Monat</div>
-          </div>
-          <div style="border: 1px solid rgba(255,255,255,0.06); padding: 20px 24px; flex: 1;">
-            <div style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px;">Pro</div>
-            <div style="font-family: var(--font-display); font-size: 28px; color: var(--accent);">777</div>
-            <div style="font-family: var(--font-mono); font-size: 10px; color: var(--muted);">CHF / Monat</div>
-          </div>
+      <p>Berechne dein ideales Paket basierend auf deinen Calls und durchschnittlicher Gesprächsdauer. Keine versteckten Kosten.</p>
+      <div class="mini-plans">
+        <div class="mini-plan">
+          <div class="mini-plan-tier">Basic</div>
+          <div class="mini-plan-price">333</div>
+          <div class="mini-plan-unit">CHF / Monat</div>
         </div>
-        <div style="border: 1px solid rgba(217,70,239,0.12); padding: 20px 24px; background: rgba(217,70,239,0.04);">
-          <div style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px;">Corporate</div>
-          <div style="font-size: 14px; color: rgba(245,242,237,0.6); line-height: 1.6;">Für komplexe Anforderungen & mehrere Standorte. Individuelles Setup auf Anfrage.</div>
+        <div class="mini-plan">
+          <div class="mini-plan-tier">Go Full</div>
+          <div class="mini-plan-price">777</div>
+          <div class="mini-plan-unit">CHF / Monat</div>
+        </div>
+        <div class="mini-plan" style="border-color:rgba(217,70,239,.15);background:rgba(217,70,239,.04);">
+          <div class="mini-plan-tier">Corporate</div>
+          <div class="mini-plan-price" style="font-size:18px;line-height:1.3;">Auf Anfrage</div>
+          <div class="mini-plan-unit">&nbsp;</div>
         </div>
       </div>
     </div>
-    <div class="calc-box reveal">
-      <div class="calc-row">
-        <div class="calc-label">
-          Calls pro Monat
-          <span id="callsVal">50</span>
-        </div>
-        <input type="range" class="calc-slider" id="callsSlider" min="10" max="500" value="50" step="10">
+    <div class="calc-box rv">
+      <div class="c-row">
+        <div class="c-lbl">Calls pro Monat <span id="vCalls">50</span></div>
+        <input type="range" id="sCalls" min="10" max="500" value="50" step="10" oninput="calcUpdate()">
       </div>
-      <div class="calc-row">
-        <div class="calc-label">
-          Ø Gesprächsdauer (Minuten)
-          <span id="durationVal">4</span>
-        </div>
-        <input type="range" class="calc-slider" id="durationSlider" min="1" max="20" value="4" step="1">
+      <div class="c-row">
+        <div class="c-lbl">Ø Gesprächsdauer (Min.) <span id="vDur">4</span></div>
+        <input type="range" id="sDur" min="1" max="20" value="4" step="1" oninput="calcUpdate()">
       </div>
       <div class="calc-result">
-        <div class="calc-result-label">Benötigte Minuten / Monat</div>
-        <div class="calc-result-num" id="totalMinutes">200</div>
-        <div class="calc-result-unit">Call-Minuten</div>
+        <div class="cr-label">Benötigte Minuten / Monat</div>
+        <div class="cr-num" id="rMin">200</div>
+        <div class="cr-unit">Call-Minuten</div>
       </div>
-      <div class="calc-plan-suggest" id="planSuggest">
+      <div class="calc-suggest">
         <div>
-          <div style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px;">Empfohlenes Paket</div>
-          <div class="plan-name" id="suggestedPlan">Basic</div>
+          <div class="cs-label">Empfohlenes Paket</div>
+          <div class="cs-plan" id="rPlan">Basic</div>
         </div>
-        <div class="plan-price" id="suggestedPrice">333 CHF</div>
+        <div class="cs-price" id="rPrice">333 CHF</div>
       </div>
-      <button class="btn-primary" style="width: 100%; margin-top: 20px;" onclick="document.getElementById('callback').scrollIntoView({behavior:'smooth'})">
-        <span>Dieses Paket anfragen →</span>
-      </button>
+      <button class="btn-p" style="width:100%" onclick="document.getElementById('callback').scrollIntoView({behavior:'smooth'})">Dieses Paket anfragen →</button>
     </div>
   </div>
 </section>
 
 <!-- PRICING -->
 
-<section class="pricing-section" id="pricing">
-  <div class="section-label">Pricing</div>
-  <h2 class="pricing-title">Klar.<br>Direkt.</h2>
-  <div class="pricing-grid">
-    <div class="pricing-card reveal">
-      <div class="pricing-tier">Entry</div>
-      <div class="pricing-num">333</div>
-      <div class="pricing-currency">CHF / Monat</div>
-      <ul class="pricing-features">
+<section id="pricing" style="background:#111;">
+  <div class="s-label">Pricing</div>
+  <h2 class="price-title">Klar.<br>Direkt.</h2>
+  <div class="price-grid">
+    <div class="prc rv">
+      <div class="prc-tier">Entry</div>
+      <div class="prc-num">333</div>
+      <div class="prc-cur">CHF / Monat</div>
+      <ul class="prc-feats">
         <li>SNOB Core Setup</li>
-        <li>AI Calls & Basis-Automation</li>
+        <li>AI Calls &amp; Basis-Automation</li>
         <li>Multilingual (DE/EN/FR)</li>
-        <li>Dashboard & Analytics</li>
+        <li>Dashboard &amp; Analytics</li>
         <li>Email Support</li>
       </ul>
-      <button class="pricing-cta" onclick="document.getElementById('callback').scrollIntoView({behavior:'smooth'})">Basic anfragen</button>
+      <button class="prc-btn" onclick="document.getElementById('callback').scrollIntoView({behavior:'smooth'})">Basic anfragen</button>
     </div>
-    <div class="pricing-card featured reveal">
-      <div class="pricing-tier">Go Full ✦ Most Popular</div>
-      <div class="pricing-num">777</div>
-      <div class="pricing-currency">CHF / Monat</div>
-      <ul class="pricing-features">
+    <div class="prc hot rv">
+      <div class="prc-tier">Go Full ✦ Most Popular</div>
+      <div class="prc-num">777</div>
+      <div class="prc-cur">CHF / Monat</div>
+      <ul class="prc-feats">
         <li>Alles aus Basic</li>
-        <li>Erweiterte Flows & Integrationen</li>
-        <li>CRM & Kalender-Anbindung</li>
+        <li>Erweiterte Flows &amp; Integrationen</li>
+        <li>CRM &amp; Kalender-Anbindung</li>
         <li>Outbound Kampagnen</li>
         <li>Priority Support</li>
       </ul>
-      <button class="pricing-cta" onclick="document.getElementById('callback').scrollIntoView({behavior:'smooth'})">Go Full anfragen</button>
+      <button class="prc-btn" onclick="document.getElementById('callback').scrollIntoView({behavior:'smooth'})">Go Full anfragen</button>
     </div>
-    <div class="pricing-card reveal">
-      <div class="pricing-tier">Enterprise</div>
-      <div class="pricing-num" style="font-size: 48px; line-height: 1.2;">AUF<br>ANFRAGE</div>
-      <div class="pricing-currency" style="margin-top: 16px;">Individuell</div>
-      <ul class="pricing-features">
-        <li>Alles aus Pro</li>
+    <div class="prc rv">
+      <div class="prc-tier">Enterprise</div>
+      <div class="prc-num" style="font-size:42px;line-height:1.15;">AUF<br>ANFRAGE</div>
+      <div class="prc-cur" style="margin-top:12px;">Individuell</div>
+      <ul class="prc-feats">
+        <li>Alles aus Go Full</li>
         <li>Individuelles Setup</li>
         <li>Mehrere Standorte</li>
-        <li>API & Prozess-Architektur</li>
+        <li>API &amp; Prozess-Architektur</li>
         <li>Dedicated Account Manager</li>
       </ul>
-      <button class="pricing-cta" onclick="document.getElementById('callback').scrollIntoView({behavior:'smooth'})">Gespräch starten</button>
+      <button class="prc-btn" onclick="document.getElementById('callback').scrollIntoView({behavior:'smooth'})">Gespräch starten</button>
     </div>
   </div>
 </section>
 
-<!-- CREDITS TOP-UP -->
+<!-- CREDITS -->
 
-<section style="background: #0d0d0d; padding: 100px 48px;">
-  <div class="section-label">Call-Minuten</div>
-  <h2 style="font-family: var(--font-display); font-size: clamp(40px,6vw,80px); line-height:1; margin-bottom: 16px;">
-    Mehr Minuten?<br>Einfach aufladen.
-  </h2>
-  <p style="font-size: 15px; color: rgba(245,242,237,0.5); max-width: 520px; line-height: 1.7; margin-bottom: 60px;">
-    Zusätzliche Minuten gibt es ab <strong style="color:var(--white)">CHF 0.09/Min.</strong> — je höher dein Plan, desto besser die Rate. Priority Queue & reduzierte Latenz inklusive.
-  </p>
-  <div style="display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; max-width: 860px;">
-    <div class="reveal" style="background: var(--gray); border: 1px solid rgba(255,255,255,0.05); padding: 40px; transition: border-color .3s; position:relative; overflow:hidden;">
-      <div style="position:absolute; top:-16px; right:16px; font-family:var(--font-display); font-size:80px; color:rgba(217,70,239,0.04);">01</div>
-      <div style="font-family:var(--font-display); font-size: 56px; color: var(--accent); line-height:1;">$50</div>
-      <div style="font-family:var(--font-mono); font-size: 13px; color: var(--white); margin: 12px 0 4px; letter-spacing:0.05em;"><strong>555 Minuten</strong></div>
-      <div style="font-family:var(--font-mono); font-size: 10px; color: var(--muted); text-transform:uppercase; letter-spacing:0.15em;">Priority Queue · Low Latency</div>
+<section style="background:#080808;">
+  <div class="s-label">Call-Minuten</div>
+  <h2 style="font-family:var(--ff);font-size:clamp(36px,5vw,72px);line-height:1;margin-bottom:14px;">Mehr Minuten?<br>Einfach aufladen.</h2>
+  <p style="font-size:14px;color:rgba(245,242,237,.5);max-width:500px;line-height:1.75;margin-bottom:52px;">Zusätzliche Minuten ab <strong style="color:var(--wh)">$0.09/Min.</strong> — Priority Queue &amp; reduzierte Latenz inklusive.</p>
+  <div class="credits-grid">
+    <div class="cred rv">
+      <div class="cred-ghost">01</div>
+      <div class="cred-usd">$50</div>
+      <div class="cred-mins">555 Minuten</div>
+      <div class="cred-tag">Priority Queue · Low Latency</div>
     </div>
-    <div class="reveal" style="background: linear-gradient(135deg, #1a0a1e 0%, #0d0d0d 100%); border: 1px solid rgba(217,70,239,0.25); padding: 40px; position:relative; overflow:hidden;">
-      <div style="position:absolute; top:-16px; right:16px; font-family:var(--font-display); font-size:80px; color:rgba(217,70,239,0.08);">02</div>
-      <div style="font-family:var(--font-mono); font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent); margin-bottom:12px;">Beliebt</div>
-      <div style="font-family:var(--font-display); font-size: 56px; color: var(--accent); line-height:1;">$100</div>
-      <div style="font-family:var(--font-mono); font-size: 13px; color: var(--white); margin: 12px 0 4px; letter-spacing:0.05em;"><strong>1'111 Minuten</strong></div>
-      <div style="font-family:var(--font-mono); font-size: 10px; color: var(--muted); text-transform:uppercase; letter-spacing:0.15em;">Priority Queue · Low Latency</div>
+    <div class="cred hot rv">
+      <div class="cred-ghost">02</div>
+      <div class="cred-pop">Beliebt</div>
+      <div class="cred-usd">$100</div>
+      <div class="cred-mins">1'111 Minuten</div>
+      <div class="cred-tag">Priority Queue · Low Latency</div>
     </div>
-    <div class="reveal" style="background: var(--gray); border: 1px solid rgba(255,255,255,0.05); padding: 40px; position:relative; overflow:hidden;">
-      <div style="position:absolute; top:-16px; right:16px; font-family:var(--font-display); font-size:80px; color:rgba(217,70,239,0.04);">03</div>
-      <div style="font-family:var(--font-display); font-size: 56px; color: var(--accent); line-height:1;">$300</div>
-      <div style="font-family:var(--font-mono); font-size: 13px; color: var(--white); margin: 12px 0 4px; letter-spacing:0.05em;"><strong>3'333 Minuten</strong></div>
-      <div style="font-family:var(--font-mono); font-size: 10px; color: var(--muted); text-transform:uppercase; letter-spacing:0.15em;">Priority Queue · Low Latency</div>
+    <div class="cred rv">
+      <div class="cred-ghost">03</div>
+      <div class="cred-usd">$300</div>
+      <div class="cred-mins">3'333 Minuten</div>
+      <div class="cred-tag">Priority Queue · Low Latency</div>
     </div>
   </div>
-  <p style="font-family:var(--font-mono); font-size:10px; color:rgba(255,255,255,0.2); margin-top:24px; letter-spacing:0.1em;">
-    Preise exkl. MwSt. · CHF-Äquivalent je nach Kurs · Auto Top-up auf Wunsch aktivierbar
-  </p>
+  <p style="font-family:var(--fm);font-size:10px;color:rgba(255,255,255,.18);margin-top:22px;letter-spacing:.1em;">Preise exkl. MwSt. · CHF-Äquivalent je nach Kurs · Auto Top-up auf Wunsch aktivierbar</p>
 </section>
 
 <!-- CALLBACK -->
 
-<section class="callback-section" id="callback">
-  <div class="callback-inner">
-    <div class="callback-text reveal">
-      <div class="section-label">Rückruf von SNOB</div>
+<section id="callback" style="background:#111;border-top:1px solid rgba(255,255,255,.05);">
+  <div class="cb-inner">
+    <div class="cb-text rv">
+      <div class="s-label">Rückruf von SNOB</div>
       <h2>SNOB<br>ruft dich<br>an.</h2>
-      <p>Kein Sales-Pitch. SNOB selbst meldet sich — dein erster echter AI-Anruf. In deiner Sprache, sofort, ohne Wartezeit.</p>
-      <div style="margin-top: 32px; display: flex; align-items: center; gap: 16px;">
-        <div style="width: 48px; height: 48px; border-radius: 50%; background: rgba(217,70,239,0.12); border: 1px solid rgba(217,70,239,0.3); display: flex; align-items: center; justify-content: center; font-size: 20px;">🤙</div>
-        <div style="font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.8;">
-          Antwort innerhalb<br><span style="color: var(--accent);">von 60 Sekunden</span>
-        </div>
+      <p>Kein Sales-Pitch. SNOB meldet sich — dein erster echter AI-Anruf. In deiner Sprache, ohne Wartezeit.</p>
+      <div class="cb-badge">
+        <div class="cb-badge-ico">🤙</div>
+        <div class="cb-badge-txt">Antwort innerhalb<br><strong>von 60 Sekunden</strong></div>
       </div>
     </div>
-    <div class="callback-form reveal" id="callbackFormWrapper">
-      <div id="callbackFormInner">
-        <div style="font-family: var(--font-display); font-size: 28px; letter-spacing: 0.05em; margin-bottom: 8px;">DEMO ANFRAGEN</div>
-        <p style="font-size: 13px; color: var(--muted); margin-bottom: 32px; line-height: 1.6;">Hinterlasse deine Nummer — SNOB meldet sich persönlich.</p>
-        <div class="form-field">
-          <label>Dein Name</label>
-          <input type="text" id="cbName" placeholder="Max Muster">
-        </div>
-        <div class="form-field">
-          <label>Telefonnummer</label>
-          <input type="tel" id="cbPhone" placeholder="+41 79 000 00 00">
-        </div>
-        <div class="form-field">
-          <label>Unternehmen (optional)</label>
-          <input type="text" id="cbCompany" placeholder="Muster AG">
-        </div>
-        <button class="callback-btn" id="callbackBtn" onclick="submitCallback()">
-          🤙 SNOB ANRUFEN LASSEN
-        </button>
+    <div class="cb-form rv" id="cbWrap">
+      <div id="cbInner">
+        <div class="cb-form-title">DEMO ANFRAGEN</div>
+        <p class="cb-form-sub">Hinterlasse deine Nummer — SNOB meldet sich persönlich.</p>
+        <div class="f-field"><label>Dein Name</label><input type="text" id="cbName" placeholder="Max Muster"></div>
+        <div class="f-field"><label>Telefonnummer</label><input type="tel" id="cbPhone" placeholder="+41 79 000 00 00"></div>
+        <div class="f-field"><label>Unternehmen (optional)</label><input type="text" id="cbCo" placeholder="Muster AG"></div>
+        <button class="cb-btn" onclick="cbSubmit()">🤙 SNOB ANRUFEN LASSEN</button>
       </div>
-      <div class="callback-success" id="callbackSuccess">
-        <div class="check">✅</div>
-        <p style="font-size: 16px; margin-bottom: 8px;">Perfekt.</p>
-        <p>SNOB meldet sich innert 60 Sekunden.</p>
-        <p style="margin-top: 16px; font-family: var(--font-display); font-size: 22px; color: var(--accent); letter-spacing: 0.1em;">+41 61 539 13 99</p>
-        <p style="margin-top: 8px; color: var(--muted); font-family: var(--font-body); font-size: 12px; text-transform: none; letter-spacing: 0;">Dein erster AI-Anruf steht bevor.</p>
+      <div class="cb-success" id="cbOk">
+        <div class="ck">✅</div>
+        <p>Perfekt. SNOB meldet sich innert 60 Sekunden.</p>
+        <div class="ph">+41 61 539 13 99</div>
       </div>
     </div>
   </div>
@@ -1179,204 +653,140 @@ footer { flex-direction: column; gap: 24px; text-align: center; }
 <!-- FOOTER -->
 
 <footer>
-  <div class="footer-logo">SNOB</div>
-  <ul class="footer-links">
+  <div class="f-logo">SNOB</div>
+  <ul class="f-links">
     <li><a href="#">Datenschutz</a></li>
     <li><a href="#">AGB</a></li>
     <li><a href="#">Impressum</a></li>
     <li><a href="#">Kontakt</a></li>
   </ul>
-  <div class="footer-copy">© 2026 SNOB — Basel-Stadt, Switzerland &nbsp;|&nbsp; +41 61 539 13 99</div>
+  <div class="f-copy">© 2026 SNOB · Basel-Stadt, Switzerland · +41 61 539 13 99</div>
 </footer>
 
 <!-- CHATBOT -->
 
 <div class="chat-fab">
-  <div class="chat-window" id="chatWindow">
-    <div class="chat-header">
-      <div class="chat-avatar">SN</div>
-      <div class="chat-header-info">
-        <div class="chat-header-name">SNOB</div>
-        <div class="chat-header-status">Online — AI aktiv</div>
+  <div class="chat-win" id="chatWin">
+    <div class="chat-hdr">
+      <div class="chat-av">SN</div>
+      <div>
+        <div class="chat-hdr-name">SNOB</div>
+        <div class="chat-hdr-st">Online — AI aktiv</div>
       </div>
     </div>
-    <div class="chat-messages" id="chatMessages"></div>
-    <div class="chat-quick-replies" id="quickReplies">
-      <button class="quick-reply" onclick="quickReply('Was kostet SNOB?')">Preise</button>
-      <button class="quick-reply" onclick="quickReply('Wie funktioniert der AI Call?')">AI Calls</button>
-      <button class="quick-reply" onclick="quickReply('Demo anfragen')">Demo</button>
-      <button class="quick-reply" onclick="quickReply('Was ist SNOB?')">Was ist SNOB?</button>
+    <div class="chat-msgs" id="chatMsgs"></div>
+    <div class="chat-qr" id="chatQR">
+      <button class="qr-btn" onclick="qr('Was kostet SNOB?')">Preise</button>
+      <button class="qr-btn" onclick="qr('Wie funktioniert der AI Call?')">AI Calls</button>
+      <button class="qr-btn" onclick="qr('Demo anfragen')">Demo</button>
+      <button class="qr-btn" onclick="qr('Was ist SNOB?')">Was ist SNOB?</button>
     </div>
-    <div class="chat-input-row">
-      <input class="chat-input" id="chatInput" type="text" placeholder="Schreib uns..." onkeydown="if(event.key==='Enter') sendMessage()">
-      <button class="chat-send" onclick="sendMessage()">→</button>
+    <div class="chat-inp-row">
+      <input class="chat-inp" id="chatIn" type="text" placeholder="Schreib uns..." onkeydown="if(event.key==='Enter')sendMsg()">
+      <button class="chat-send" onclick="sendMsg()">→</button>
     </div>
   </div>
-  <button class="chat-trigger" id="chatTrigger" onclick="toggleChat()">
-    <span class="chat-icon">💬</span>
-    <span class="close-icon">✕</span>
+  <button class="chat-trig" id="chatTrig" onclick="toggleChat()">
+    <div class="chat-pulse"></div>
+    <span class="ico-chat">💬</span>
+    <span class="ico-close">✕</span>
   </button>
 </div>
 
 <script>
-// CURSOR
-const cursor = document.getElementById('cursor');
-const ring = document.getElementById('cursorRing');
-let mx = 0, my = 0, rx = 0, ry = 0;
-document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx + 'px'; cursor.style.top = my + 'px'; });
-document.addEventListener('mousedown', () => cursor.classList.add('active'));
-document.addEventListener('mouseup', () => cursor.classList.remove('active'));
-function animateRing() {
-  rx += (mx - rx) * 0.12;
-  ry += (my - ry) *.12;
-  ring.style.left = rx + 'px';
-  ring.style.top = ry + 'px';
-  requestAnimationFrame(animateRing);
-}
-animateRing();
-
 // SCROLL REVEAL
-const revealEls = document.querySelectorAll('.reveal');
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
-}, { threshold: 0.15 });
-revealEls.forEach(el => observer.observe(el));
+const rvEls = document.querySelectorAll('.rv');
+const rvObs = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting) e.target.classList.add('on'); }), {threshold:.12});
+rvEls.forEach(el => rvObs.observe(el));
 
-// CALCULATOR
-const callsSlider = document.getElementById('callsSlider');
-const durationSlider = document.getElementById('durationSlider');
-const callsVal = document.getElementById('callsVal');
-const durationVal = document.getElementById('durationVal');
-const totalMinutes = document.getElementById('totalMinutes');
-const suggestedPlan = document.getElementById('suggestedPlan');
-const suggestedPrice = document.getElementById('suggestedPrice');
-
-function updateCalc() {
-  const calls = +callsSlider.value;
-  const dur = +durationSlider.value;
+// CALC
+function calcUpdate() {
+  const calls = +document.getElementById('sCalls').value;
+  const dur   = +document.getElementById('sDur').value;
   const total = calls * dur;
-  const overage = total > 2000 ? ((total - 2000) * 0.09).toFixed(0) : 0;
-  callsVal.textContent = calls;
-  durationVal.textContent = dur;
-  totalMinutes.textContent = total.toLocaleString();
-
-  // Slider track color
-  const callPct = (calls - 10) / (500 - 10) * 100;
-  const durPct = (dur - 1) / (20 - 1) * 100;
-  callsSlider.style.background = `linear-gradient(to right, #d946ef ${callPct}%, rgba(255,255,255,0.1) ${callPct}%)`;
-  durationSlider.style.background = `linear-gradient(to right, #d946ef ${durPct}%, rgba(255,255,255,0.1) ${durPct}%)`;
-
-  if (total <= 1500) {
-    suggestedPlan.textContent = 'Basic';
-    suggestedPrice.textContent = '333 CHF';
-  } else if (total <= 5000) {
-    suggestedPlan.textContent = 'Go Full';
-    suggestedPrice.textContent = '777 CHF';
-  } else {
-    suggestedPlan.textContent = 'Corporate';
-    suggestedPrice.textContent = 'Auf Anfrage';
-  }
-
-  // Animate number
-  totalMinutes.style.transform = 'scale(1.08)';
-  setTimeout(() => totalMinutes.style.transform = 'scale(1)', 150);
+  document.getElementById('vCalls').textContent = calls;
+  document.getElementById('vDur').textContent   = dur;
+  const rMin = document.getElementById('rMin');
+  rMin.textContent = total.toLocaleString('de-CH');
+  rMin.style.transform = 'scale(1.08)';
+  setTimeout(() => rMin.style.transform = 'scale(1)', 140);
+  // slider tracks
+  const cp = (calls-10)/(500-10)*100;
+  const dp = (dur-1)/(20-1)*100;
+  document.getElementById('sCalls').style.background = `linear-gradient(to right,#d946ef ${cp}%,rgba(255,255,255,.1) ${cp}%)`;
+  document.getElementById('sDur').style.background   = `linear-gradient(to right,#d946ef ${dp}%,rgba(255,255,255,.1) ${dp}%)`;
+  // plan suggestion
+  let plan, price;
+  if(total <= 1500)      { plan = 'Basic';       price = '333 CHF'; }
+  else if(total <= 4000) { plan = 'Go Full';     price = '777 CHF'; }
+  else                   { plan = 'Corporate';   price = 'Auf Anfrage'; }
+  document.getElementById('rPlan').textContent  = plan;
+  document.getElementById('rPrice').textContent = price;
 }
-
-totalMinutes.style.transition = 'transform .15s ease';
-callsSlider.addEventListener('input', updateCalc);
-durationSlider.addEventListener('input', updateCalc);
-updateCalc();
+calcUpdate();
 
 // CALLBACK
-function submitCallback() {
-  const name = document.getElementById('cbName').value.trim();
-  const phone = document.getElementById('cbPhone').value.trim();
-  if (!name || !phone) {
-    document.getElementById('cbPhone').style.borderColor = '#ff3c3c';
-    setTimeout(() => document.getElementById('cbPhone').style.borderColor = '', 1500);
+function cbSubmit() {
+  const n = document.getElementById('cbName').value.trim();
+  const p = document.getElementById('cbPhone').value.trim();
+  if(!n || !p) {
+    document.getElementById('cbPhone').style.borderColor='#ef4444';
+    setTimeout(()=>document.getElementById('cbPhone').style.borderColor='',1800);
     return;
   }
-  document.getElementById('callbackFormInner').style.display = 'none';
-  document.getElementById('callbackSuccess').style.display = 'block';
+  document.getElementById('cbInner').style.display = 'none';
+  document.getElementById('cbOk').style.display    = 'block';
 }
 
 // CHAT
 let chatOpen = false;
-const chatResponses = {
-  'was kostet snob': 'SNOB gibt es ab **333 CHF/Monat** (Basic) oder **777 CHF/Monat** (Go Full). Zusätzliche Minuten ab **$0.09/Min.** — Pakete à $50 / $100 / $300. Keine versteckten Kosten, keine Überraschungen. 🇨🇭',
-  'preise': 'Basic: **333 CHF/Monat** — Go Full: **777 CHF/Monat** — Corporate: individuell. Extra-Minuten: **$50 → 555 Min. / $100 → 1111 Min. / $300 → 3333 Min.** Kalkulator oben hilft dir beim Planen.',
-  'was ist snob': 'SNOB ist dein **Network-Operated Brain** — die Schweizer AI-Plattform die Calls, Chat, Support und Sales automatisiert. Digitale Mitarbeiter, die nie schlafen. 🧠',
-  'wie funktioniert der ai call': 'Du konfigurierst deinen AI-Agenten einmal — Sprache, Ziel, Flows. Dann übernimmt SNOB: Inbound & Outbound, Multilingual, Echtzeit. Kein Mensch nötig. ⚡',
-  'demo': 'Gerne! Hinterlasse einfach deine Nummer im **Demo-Formular** unten auf der Seite — SNOB meldet sich persönlich innert 60 Sekunden. 🤙',
-  'default': 'Gute Frage! Schreib uns an **+41 61 539 13 99** oder starte direkt mit einer Demo — SNOB erklärt dir alles persönlich im Anruf. 💡'
+const botR = {
+  'was kostet':    'Basic: **333 CHF/Monat** — Go Full: **777 CHF/Monat** — Corporate: individuell. Extra-Minuten: $50→555 Min / $100→1111 Min / $300→3333 Min.',
+  'preise':        'Basic: **333 CHF/Monat** — Go Full: **777 CHF/Monat** — Corporate: individuell. Extra-Minuten: $50→555 Min / $100→1111 Min / $300→3333 Min.',
+  'was ist snob':  'SNOB ist dein **Network-Operated Brain** — die Schweizer AI-Plattform die Calls, Chat, Support und Sales automatisiert. 🧠',
+  'ai call':       'Konfiguriere deinen Agenten einmal — dann übernimmt SNOB: Inbound & Outbound, Multilingual, Echtzeit. Kein Mensch nötig. ⚡',
+  'demo':          'Hinterlasse deine Nummer im Demo-Formular weiter unten — SNOB meldet sich persönlich innert 60 Sekunden. 🤙',
+  'default':       'Gute Frage! Ruf uns an: **+41 61 539 13 99** oder starte direkt mit einer Demo weiter unten. 💡'
 };
-
-function addMessage(text, type, delay = 0) {
-  setTimeout(() => {
-    const msgs = document.getElementById('chatMessages');
-    const div = document.createElement('div');
-    div.className = `msg ${type}`;
-    div.innerHTML = `<div class="msg-bubble">${text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</div>`;
-    msgs.appendChild(div);
-    msgs.scrollTop = msgs.scrollHeight;
-  }, delay);
+function getBotResp(t) {
+  const l = t.toLowerCase();
+  for(const k in botR) { if(k !== 'default' && l.includes(k)) return botR[k]; }
+  return botR.default;
 }
-
+function addMsg(text, type, delay) {
+  setTimeout(() => {
+    const msgs = document.getElementById('chatMsgs');
+    const d = document.createElement('div');
+    d.className = 'msg ' + type;
+    d.innerHTML = '<div class="msg-b">' + text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>') + '</div>';
+    msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight;
+  }, delay||0);
+}
 function showTyping() {
-  const msgs = document.getElementById('chatMessages');
-  const typing = document.createElement('div');
-  typing.className = 'msg bot';
-  typing.id = 'typing';
-  typing.innerHTML = '<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
-  msgs.appendChild(typing);
-  msgs.scrollTop = msgs.scrollHeight;
+  const msgs = document.getElementById('chatMsgs');
+  const d = document.createElement('div');
+  d.className = 'msg bot'; d.id = 'typing';
+  d.innerHTML = '<div class="typing"><div class="td"></div><div class="td"></div><div class="td"></div></div>';
+  msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight;
 }
-
-function removeTyping() {
-  const t = document.getElementById('typing');
-  if (t) t.remove();
-}
-
-function getBotResponse(input) {
-  const lower = input.toLowerCase();
-  for (const key in chatResponses) {
-    if (lower.includes(key)) return chatResponses[key];
-  }
-  return chatResponses['default'];
-}
-
-function sendMessage(msg) {
-  const input = document.getElementById('chatInput');
-  const text = msg || input.value.trim();
-  if (!text) return;
-  input.value = '';
-  document.getElementById('quickReplies').style.display = 'none';
-  addMessage(text, 'user');
+function rmTyping() { const t=document.getElementById('typing'); if(t) t.remove(); }
+function sendMsg(m) {
+  const inp = document.getElementById('chatIn');
+  const txt = m || inp.value.trim(); if(!txt) return;
+  inp.value = '';
+  document.getElementById('chatQR').style.display = 'none';
+  addMsg(txt, 'usr');
   showTyping();
-  setTimeout(() => {
-    removeTyping();
-    addMessage(getBotResponse(text), 'bot');
-  }, 900 + Math.random() * 500);
+  setTimeout(() => { rmTyping(); addMsg(getBotResp(txt), 'bot'); }, 800+Math.random()*500);
 }
-
-function quickReply(text) {
-  sendMessage(text);
-}
-
+function qr(t) { sendMsg(t); }
 function toggleChat() {
   chatOpen = !chatOpen;
-  const win = document.getElementById('chatWindow');
-  const trigger = document.getElementById('chatTrigger');
-  win.classList.toggle('open', chatOpen);
-  trigger.classList.toggle('open', chatOpen);
-  if (chatOpen && document.getElementById('chatMessages').children.length === 0) {
-    setTimeout(() => {
-      showTyping();
-      setTimeout(() => {
-        removeTyping();
-        addMessage('Hey 👋 Ich bin **SNOB** — dein AI-Assistent. Wie kann ich dir helfen?', 'bot');
-      }, 800);
-    }, 300);
+  document.getElementById('chatWin').classList.toggle('open', chatOpen);
+  document.getElementById('chatTrig').classList.toggle('open', chatOpen);
+  if(chatOpen && !document.getElementById('chatMsgs').children.length) {
+    showTyping();
+    setTimeout(() => { rmTyping(); addMsg('Hey 👋 Ich bin **SNOB** — dein AI-Assistent. Wie kann ich dir helfen?', 'bot'); }, 700);
   }
 }
 </script>
