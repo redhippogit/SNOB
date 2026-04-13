@@ -10,7 +10,47 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html, body { background: #fff; color: #0a0a0a; font-family: 'DM Mono', monospace; overflow-x: hidden; cursor: crosshair; }
 
-/* NAV */
+/* ── INTRO OVERLAY ── */
+#intro {
+position: fixed; inset: 0; z-index: 9000;
+background: #fff;
+display: flex; flex-direction: column; align-items: flex-start; justify-content: center;
+padding: 48px;
+pointer-events: none;
+}
+#intro.done { opacity: 0; transition: opacity .5s ease .3s; pointer-events: none; }
+#intro-lines { display: flex; flex-direction: column; gap: 2px; }
+.il {
+font-family: ‘DM Mono’, monospace;
+font-size: clamp(11px, 1.5vw, 14px);
+letter-spacing: .05em;
+color: #0a0a0a;
+overflow: hidden;
+white-space: nowrap;
+width: 0;
+opacity: 0;
+}
+.il.typed { opacity: 1; animation: typeIn var(–dur) steps(var(–steps), end) forwards; }
+@keyframes typeIn { from { width: 0; } to { width: var(–w); } }
+.il .cursor-blink {
+display: inline-block; width: 8px; height: 1em;
+background: #0a0a0a; margin-left: 2px;
+vertical-align: text-bottom;
+animation: cblink .5s step-end infinite;
+}
+@keyframes cblink { 0%,100%{opacity:1} 50%{opacity:0} }
+.il.dim { color: #bbb; }
+.il.ac { color: #d946ef; }
+#intro-cursor-final {
+display: inline-block; width: 10px; height: 16px;
+background: #d946ef; margin-left: 4px; vertical-align: text-bottom;
+animation: cblink .5s step-end infinite;
+}
+
+/* body locked during intro */
+body.locked { overflow: hidden; }
+
+/* ── NAV ── */
 nav {
 position: fixed; top: 0; left: 0; right: 0; z-index: 100;
 padding: 24px 40px;
@@ -68,39 +108,6 @@ user-select: none;
 #stmt-txt .g { color: #ddd; transition: color .3s; }
 #stmt:hover #stmt-txt { color: #0a0a0a; }
 #stmt:hover #stmt-txt .g { color: #0a0a0a; }
-
-/* 4 PILLARS — tap each to reveal desc */
-#pillars { border-bottom: 1px solid #f0f0f0; }
-.pill {
-display: flex; align-items: stretch;
-border-bottom: 1px solid #f0f0f0; cursor: pointer;
-transition: background .25s;
-overflow: hidden;
-}
-.pill:last-child { border-bottom: none; }
-.pill:hover { background: #0a0a0a; }
-.pill-n {
-width: 80px; flex-shrink: 0;
-display: flex; align-items: center; justify-content: center;
-font-size: 9px; letter-spacing: .2em; color: #ddd;
-border-right: 1px solid #f0f0f0; transition: border-color .25s, color .25s;
-padding: 32px 0;
-}
-.pill:hover .pill-n { color: #333; border-color: #1a1a1a; }
-.pill-body { flex: 1; padding: 32px 40px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
-.pill-title {
-font-family: ‘Bebas Neue’, sans-serif;
-font-size: clamp(32px, 5vw, 64px); letter-spacing: .02em;
-transition: color .25s; white-space: nowrap;
-}
-.pill:hover .pill-title { color: #fff; }
-.pill-desc {
-font-size: 10px; letter-spacing: .1em; color: #bbb; max-width: 220px;
-line-height: 1.8; text-align: right;
-transition: color .25s;
-}
-.pill:hover .pill-desc { color: #555; }
-@media(max-width:640px){ .pill-desc { display: none; } .pill-body { padding: 24px 20px; } .pill-n { width: 48px; } }
 
 /* CALC */
 #calc {
@@ -236,6 +243,109 @@ footer { padding: 20px 40px; display: flex; justify-content: space-between; alig
 .f-copy { font-size: 9px; color: #ddd; }
 @media(max-width:640px){ footer { flex-direction: column; text-align: center; padding: 20px 24px; } .f-links { flex-wrap: wrap; justify-content: center; } }
 
+/* FIRST CALL */
+#firstcall {
+min-height: 100vh; display: flex; align-items: center; justify-content: center;
+border-bottom: 1px solid #f0f0f0; padding: 40px;
+flex-direction: column; text-align: center;
+}
+.fc-label {
+font-size: 9px; letter-spacing: .3em; text-transform: uppercase;
+color: #bbb; margin-bottom: 20px;
+}
+.fc-title {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: clamp(48px, 9vw, 120px); line-height: .9;
+margin-bottom: 56px;
+}
+.fc-input-wrap {
+display: flex; gap: 0; width: 100%; max-width: 480px;
+border-bottom: 1px solid #0a0a0a;
+margin-bottom: 20px;
+}
+.fc-inp {
+flex: 1; background: transparent; border: none;
+font-family: ‘Bebas Neue’, sans-serif; font-size: 32px;
+letter-spacing: .05em; color: #0a0a0a; outline: none;
+padding: 0 0 12px 0;
+}
+.fc-inp::placeholder { color: #ddd; }
+.fc-btn {
+background: none; border: none; cursor: pointer;
+font-family: ‘DM Mono’, monospace; font-size: 9px;
+letter-spacing: .2em; text-transform: uppercase;
+color: #bbb; padding: 0 0 12px 20px;
+transition: color .2s; white-space: nowrap;
+}
+.fc-btn:hover { color: #0a0a0a; }
+.fc-note { font-size: 9px; letter-spacing: .15em; text-transform: uppercase; color: #ccc; }
+
+/* CALLING STATE */
+#fc-calling { text-align: center; }
+.fc-ring {
+width: 100px; height: 100px; border-radius: 50%;
+border: 1px solid #0a0a0a;
+display: flex; align-items: center; justify-content: center;
+margin: 0 auto 32px;
+animation: ringpulse 1s ease-in-out infinite;
+position: relative;
+}
+.fc-ring::before, .fc-ring::after {
+content: ‘’; position: absolute; border-radius: 50%;
+border: 1px solid rgba(10,10,10,.15);
+animation: ringwave 1.5s ease-out infinite;
+}
+.fc-ring::before { inset: -16px; animation-delay: 0s; }
+.fc-ring::after  { inset: -32px; animation-delay: .3s; }
+@keyframes ringpulse {
+0%,100% { transform: scale(1); }
+50% { transform: scale(1.04); }
+}
+@keyframes ringwave {
+0%   { transform: scale(1); opacity: 1; }
+100% { transform: scale(1.4); opacity: 0; }
+}
+.fc-ring-inner { font-size: 36px; animation: shake 1s ease-in-out infinite; }
+@keyframes shake {
+0%,100% { transform: rotate(0deg); }
+20% { transform: rotate(-12deg); }
+40% { transform: rotate(12deg); }
+60% { transform: rotate(-8deg); }
+80% { transform: rotate(8deg); }
+}
+.fc-calling-num {
+font-family: ‘Bebas Neue’, sans-serif; font-size: 36px;
+letter-spacing: .05em; margin-bottom: 12px;
+}
+.fc-calling-lbl {
+font-size: 9px; letter-spacing: .3em; text-transform: uppercase; color: #bbb;
+animation: lblfade 1s ease infinite;
+}
+@keyframes lblfade { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+/* DONE STATE */
+#fc-done { text-align: center; }
+.fc-done-icon {
+font-family: ‘Bebas Neue’, sans-serif; font-size: 80px; line-height: 1;
+color: #d946ef; margin-bottom: 16px;
+}
+.fc-done-title {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: clamp(40px, 7vw, 88px); line-height: .9; margin-bottom: 16px;
+}
+.fc-done-sub {
+font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: #bbb;
+margin-bottom: 32px;
+}
+.fc-done-sub span { color: #0a0a0a; }
+.fc-reset {
+background: none; border: none; border-bottom: 1px solid #ddd;
+font-family: ‘DM Mono’, monospace; font-size: 9px;
+letter-spacing: .2em; text-transform: uppercase; color: #bbb;
+padding-bottom: 2px; cursor: pointer; transition: color .2s, border-color .2s;
+}
+.fc-reset:hover { color: #0a0a0a; border-color: #0a0a0a; }
+
 /* CHAT */
 .fab { position: fixed; bottom: 24px; right: 24px; z-index: 200; }
 .fab-btn {
@@ -284,7 +394,13 @@ transition: opacity .2s, transform .2s;
 </style>
 
 </head>
-<body>
+<body class="locked">
+
+<!-- INTRO OVERLAY -->
+
+<div id="intro">
+  <div id="intro-lines"></div>
+</div>
 
 <!-- NAV -->
 
@@ -311,36 +427,34 @@ transition: opacity .2s, transform .2s;
   </div>
 </div>
 
-<!-- PILLARS -->
+<!-- FIRST CALL -->
 
-<div id="pillars">
-  <div class="pill">
-    <div class="pill-n">01</div>
-    <div class="pill-body">
-      <div class="pill-title">AI Brain</div>
-      <div class="pill-desc">Versteht, entscheidet,<br>reagiert in Echtzeit.</div>
+<div id="firstcall">
+  <div id="fc-idle">
+    <div class="fc-label">Dein erster SNOB-Anruf</div>
+    <div class="fc-title">Gib deine Nummer ein.<br>SNOB ruft an.</div>
+    <div class="fc-input-wrap">
+      <input class="fc-inp" id="fcNum" type="tel" placeholder="+41 79 000 00 00" maxlength="20">
+      <button class="fc-btn" id="fcBtn" onclick="fcCall()">
+        <span id="fcBtnTxt">Anrufen lassen</span>
+      </button>
     </div>
+    <div class="fc-note">Kostenlos. Kein Pitch. Nur SNOB.</div>
   </div>
-  <div class="pill">
-    <div class="pill-n">02</div>
-    <div class="pill-body">
-      <div class="pill-title">Calls & Chat</div>
-      <div class="pill-desc">Inbound & Outbound.<br>DE / EN / FR. 24/7.</div>
+
+  <div id="fc-calling" style="display:none">
+    <div class="fc-ring" id="fcRing">
+      <div class="fc-ring-inner">📞</div>
     </div>
+    <div class="fc-calling-num" id="fcCallNum"></div>
+    <div class="fc-calling-lbl" id="fcCallLbl">SNOB wählt...</div>
   </div>
-  <div class="pill">
-    <div class="pill-n">03</div>
-    <div class="pill-body">
-      <div class="pill-title">Dashboard</div>
-      <div class="pill-desc">Volle Kontrolle.<br>Live Analytics.</div>
-    </div>
-  </div>
-  <div class="pill">
-    <div class="pill-n">04</div>
-    <div class="pill-body">
-      <div class="pill-title">Automation</div>
-      <div class="pill-desc">CRM, Kalender,<br>Zahlungen, Workflows.</div>
-    </div>
+
+  <div id="fc-done" style="display:none">
+    <div class="fc-done-icon">✓</div>
+    <div class="fc-done-title">SNOB meldet sich.</div>
+    <div class="fc-done-sub">Innert 60 Sekunden auf <span id="fcDoneNum"></span></div>
+    <button class="fc-reset" onclick="fcReset()">Andere Nummer →</button>
   </div>
 </div>
 
@@ -513,6 +627,124 @@ transition: opacity .2s, transform .2s;
 </div>
 
 <script>
+// ── INTRO TYPEWRITER ──
+(function(){
+  const lines = [
+    { text: 'S.N.O.B.AI — Network-Operated Brain', cls: 'dim' },
+    { text: '', cls: '' },
+    { text: 'Initialisiere KI...', cls: 'dim' },
+    { text: 'Sprachmodell geladen.', cls: 'dim' },
+    { text: 'Verbindung hergestellt.', cls: 'dim' },
+    { text: '', cls: '' },
+    { text: 'Bereit.', cls: 'ac' },
+    { text: '', cls: '' },
+    { text: 'SNOB', cls: 'big' },
+  ];
+
+  const container = document.getElementById('intro-lines');
+  let delay = 0;
+
+  lines.forEach((line, idx) => {
+    const el = document.createElement('div');
+    el.className = 'il' + (line.cls ? ' ' + line.cls : '');
+
+    if (line.cls === 'big') {
+      el.style.fontFamily = "'Bebas Neue', sans-serif";
+      el.style.fontSize = 'clamp(72px, 18vw, 220px)';
+      el.style.lineHeight = '1';
+      el.style.letterSpacing = '-.01em';
+      el.style.color = '#0a0a0a';
+    }
+
+    if (!line.text) {
+      el.innerHTML = '&nbsp;';
+      el.style.opacity = '1';
+      el.style.width = '10px';
+      container.appendChild(el);
+      delay += 80;
+      return;
+    }
+
+    const chars = line.text.length;
+    const speed = line.cls === 'big' ? 60 : 28;
+    const dur = chars * speed + 'ms';
+
+    el.style.setProperty('--dur', dur);
+    el.style.setProperty('--steps', chars);
+    // measure width after appending
+    el.textContent = line.text;
+    el.style.opacity = '0';
+    el.style.width = '0';
+    container.appendChild(el);
+
+    // measure
+    el.style.opacity = '1';
+    const w = el.scrollWidth + 'px';
+    el.style.opacity = '0';
+    el.style.width = '0';
+    el.style.setProperty('--w', w);
+
+    const isLast = idx === lines.length - 1;
+
+    setTimeout(() => {
+      el.classList.add('typed');
+      if (isLast) {
+        // add blinking cursor to last line
+        const cur = document.createElement('span');
+        cur.id = 'intro-cursor-final';
+        el.appendChild(cur);
+
+        // after pause, fade out and reveal page
+        setTimeout(() => {
+          document.getElementById('intro').classList.add('done');
+          document.body.classList.remove('locked');
+          setTimeout(() => {
+            const intro = document.getElementById('intro');
+            if (intro) intro.remove();
+          }, 900);
+        }, 900);
+      }
+    }, delay);
+
+    delay += chars * speed + (line.cls === 'big' ? 200 : 120);
+  });
+})();
+
+// ── FIRST CALL ──
+function fcCall(){
+  const num = document.getElementById('fcNum').value.trim();
+  if(!num || num.length < 8){
+    document.getElementById('fcNum').style.borderBottom = '1px solid #d946ef';
+    document.getElementById('fcNum').focus();
+    setTimeout(()=>document.getElementById('fcNum').style.borderBottom='', 1500);
+    return;
+  }
+  document.getElementById('fcDoneNum').textContent = num;
+  document.getElementById('fcCallNum').textContent = num;
+  document.getElementById('fc-idle').style.display = 'none';
+  document.getElementById('fc-calling').style.display = 'block';
+
+  // simulate calling sequence
+  const lbl = document.getElementById('fcCallLbl');
+  const steps = ['SNOB wählt...','Verbinde...','Klingelt...','SNOB spricht...'];
+  let i = 0;
+  const iv = setInterval(()=>{
+    i++;
+    if(i < steps.length) { lbl.textContent = steps[i]; }
+    else {
+      clearInterval(iv);
+      document.getElementById('fc-calling').style.display = 'none';
+      document.getElementById('fc-done').style.display = 'block';
+    }
+  }, 1200);
+}
+function fcReset(){
+  document.getElementById('fcNum').value = '';
+  document.getElementById('fc-done').style.display = 'none';
+  document.getElementById('fc-idle').style.display = 'block';
+  document.getElementById('fcNum').focus();
+}
+
 // CALC
 function doCalc(){
   const c=+document.getElementById('sC').value, d=+document.getElementById('sD').value, t=c*d;
