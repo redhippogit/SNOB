@@ -30,8 +30,8 @@ height:0;overflow:hidden;opacity:0;
 .tl.gap{height:1.2em;opacity:1;}
 .tl.big{
 font-family:‘Bebas Neue’,sans-serif;
-font-size:clamp(80px,18vw,240px);
-line-height:.88;letter-spacing:-.01em;color:#0a0a0a;
+font-size:clamp(56px,12vw,180px);
+line-height:.9;letter-spacing:-.01em;color:#0a0a0a;
 }
 .tl.show{opacity:1;height:auto;}
 /* cursor */
@@ -103,7 +103,7 @@ white-space:nowrap;opacity:0;transition:opacity .3s .2s;
 
 /* ── STATEMENT ── */
 #stmt{
-height:100vh;display:flex;align-items:center;justify-content:center;
+height:100svh;display:flex;align-items:center;justify-content:center;
 border-bottom:1px solid #f0f0f0;cursor:pointer;padding:40px;
 }
 #stmt-txt{
@@ -286,7 +286,38 @@ footer{padding:20px 40px;display:flex;justify-content:space-between;align-items:
 .f-links a{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#ddd;text-decoration:none;transition:color .2s;}
 .f-links a:hover{color:#0a0a0a;}
 .f-copy{font-size:9px;color:#ddd;}
-@media(max-width:640px){footer{flex-direction:column;text-align:center;padding:20px 24px;}.f-links{flex-wrap:wrap;justify-content:center;}}
+@media(max-width:640px){
+footer{flex-direction:column;text-align:center;padding:20px 24px;}
+.f-links{flex-wrap:wrap;justify-content:center;}
+}
+/* ── RESPONSIVE FIXES ── */
+@media(max-width:768px){
+nav{padding:16px 20px;}
+.n-r{gap:12px;}
+.lang-sw li{padding:4px 5px;font-size:8px;}
+.n-signin{font-size:8px;}
+.n-cta{font-size:8px;}
+#hero{height:100svh;}
+#hero-word{font-size:clamp(80px,18vw,200px);}
+#hero.big #hero-word{font-size:clamp(120px,26vw,300px);}
+#stmt{height:auto;min-height:80svh;padding:80px 24px;}
+#callblock{padding:64px 24px;min-height:80svh;}
+.call-btn{padding:18px 40px;font-size:clamp(18px,5vw,26px);}
+#calc{padding:56px 24px;gap:40px;}
+.calc-big{font-size:clamp(60px,15vw,120px);}
+#pricing .pr-head{padding:48px 24px 28px;}
+.pr-grid{grid-template-columns:1fr;}
+.pr-col{border-right:none;border-bottom:1px solid #f0f0f0;padding:32px 24px;}
+.cr-strip{grid-template-columns:1fr;}
+.cr-item{border-right:none;border-bottom:1px solid #f0f0f0;padding:28px 24px;}
+.chat-w{width:calc(100vw - 32px);right:16px;}
+.fab{bottom:16px;right:16px;}
+}
+@media(max-width:400px){
+#hero-word{font-size:clamp(64px,16vw,160px);}
+.n-r{gap:8px;}
+.lang-sw{display:none;}
+}
 
 /* ── CHAT ── */
 .fab{position:fixed;bottom:24px;right:24px;z-index:200;}
@@ -328,8 +359,20 @@ transition:opacity .2s,transform .2s;
 .td{width:4px;height:4px;background:#ccc;border-radius:50%;animation:tb .7s infinite;}
 .td:nth-child(2){animation-delay:.12s}.td:nth-child(3){animation-delay:.24s}
 @keyframes tb{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px);background:#d946ef;}}
-</style>
 
+/* CONTACT */
+#contact{border-bottom:1px solid #f0f0f0;}
+.co-simple{min-height:80svh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 40px;text-align:center;}
+@media(max-width:768px){.co-simple{padding:64px 24px;min-height:60svh;}}
+.co-s-title{font-family:‘Bebas Neue’,sans-serif;font-size:clamp(32px,6vw,88px);line-height:.95;margin-bottom:48px;}
+.co-call-btn{display:inline-flex;align-items:center;justify-content:center;background:#0a0a0a;color:#fff;font-family:‘Bebas Neue’,sans-serif;font-size:clamp(20px,3vw,30px);letter-spacing:.08em;padding:20px 56px;text-decoration:none;transition:background .25s,transform .2s;position:relative;overflow:hidden;}
+.co-call-btn::before{content:’’;position:absolute;inset:0;background:#d946ef;transform:scaleX(0);transform-origin:left;transition:transform .35s cubic-bezier(.16,1,.3,1);}
+.co-call-btn span{position:relative;z-index:1;}
+.co-call-btn:hover::before{transform:scaleX(1);}
+.co-call-btn:hover{transform:scale(1.02);}
+.co-s-tel{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#ccc;margin-top:20px;}
+
+</style>
 </head>
 <body>
 
@@ -355,7 +398,7 @@ transition:opacity .2s,transform .2s;
 <!-- HERO -->
 
 <div id="hero" onclick="this.classList.toggle('big')">
-  <div id="hero-word">goSNOB</div>
+  <div id="hero-word">SNOB</div>
   <div id="hero-hint" data-i="hero_hint">— Tippen —</div>
   <div id="hero-sub" data-i="hero_sub">goSNOB.ai · Network-Operated Brain · Basel</div>
 </div>
@@ -371,7 +414,7 @@ transition:opacity .2s,transform .2s;
 <div id="callblock">
   <div class="cb-label" data-i="cb_label">Dein erster SNOB-Anruf</div>
   <div class="cb-title" data-i="cb_title">Ruf SNOB an.<br>Jetzt.</div>
-  <button class="call-btn" id="snobCallBtn" onclick="openWidget()"><span data-i="call_btn">CALL SNOB</span></button>
+  <a class="call-btn" href="tel:0041615391399"><span data-i="call_btn">CALL SNOB</span></a>
   <div class="cb-note" data-i="cb_note">Kostenlos. Kein Pitch. Nur SNOB.</div>
 </div>
 
@@ -445,30 +488,9 @@ transition:opacity .2s,transform .2s;
 <!-- CONTACT -->
 
 <div id="contact">
-  <div class="co-l">
-    <div>
-      <div class="co-l-big" data-i="co_big">goSNOB<br>ruft dich<br>an.</div>
-      <div class="co-l-sub" data-i="co_sub">Kein Sales-Pitch.<br>Innert 60 Sekunden.</div>
-    </div>
-    <div>
-      <div class="co-l-tel-lbl" data-i="co_tel_lbl">Direkt</div>
-      <div class="co-l-tel">+41 61 539 13 99</div>
-    </div>
-  </div>
-  <div class="co-r">
-    <div id="fForm">
-      <label class="f-lbl" data-i="fl_name">Name</label>
-      <input class="f-inp" id="fName" type="text" placeholder="Max Muster">
-      <label class="f-lbl" data-i="fl_phone">Telefon</label>
-      <input class="f-inp" id="fPhone" type="tel" placeholder="+41 79 000 00 00">
-      <label class="f-lbl" data-i="fl_co">Firma</label>
-      <input class="f-inp" id="fCo" type="text" placeholder="Optional">
-      <button class="f-send" data-i="f_send" data-i="f_send" onclick="fSend()">SNOB ANRUFEN LASSEN</button>
-    </div>
-    <div class="f-ok" id="fOk">
-      <div class="f-ok-big" data-i="f_ok_big">Perfekt.<br>SNOB meldet<br>sich.</div>
-      <div class="f-ok-ph">+41 61 539 13 99</div>
-    </div>
+  <div class="co-simple">
+    <div class="co-s-title" data-i="co_big">Kein Sales-Pitch.<br>Ruf SNOB an.<br>Sag was du brauchst.</div>
+    <div class="co-s-tel">+41 61 539 13 99</div>
   </div>
 </div>
 
@@ -493,7 +515,7 @@ transition:opacity .2s,transform .2s;
   <div class="chat-w" id="chatW">
     <div class="cw-h">
       <div class="cw-av">gS</div>
-      <div><div class="cw-name">goSNOB</div><div class="cw-st" data-i="chat_st">Online</div></div>
+      <div><div class="cw-name">SNOB</div><div class="cw-st" data-i="chat_st">Online</div></div>
     </div>
     <div class="cw-msgs" id="cMsgs"></div>
     <div class="cw-qr" id="cQR">
@@ -516,7 +538,8 @@ transition:opacity .2s,transform .2s;
 <script>
 // ── LANGUAGE DATA (must be at top) ──
 var T = {"hero_hint": {"de": "— Tippen —", "en": "— Tap —", "fr": "— Appuyer —"}, "hero_sub": {"de": "Network-Operated Brain · S.N.O.B.AI · Basel", "en": "Network-Operated Brain · S.N.O.B.AI · Basel", "fr": "Network-Operated Brain · S.N.O.B.AI · Bâle"}, "stmt": {"de": "<span class=\"g\">Kein</span> Mensch.<br><span class=\"g\">Kein</span> Warten.<br>Nur SNOB.", "en": "<span class=\"g\">No</span> Human.<br><span class=\"g\">No</span> Waiting.<br>Just SNOB.", "fr": "<span class=\"g\">Pas</span> d'humain.<br><span class=\"g\">Pas</span> d'attente.<br>Juste SNOB."}, "nav_signin": {"de": "Anmelden", "en": "Sign In", "fr": "Connexion"},
-  "nav_cta": {"de": "Demo anfragen", "en": "Request demo", "fr": "Demander démo"}, "cb_label": {"de": "Dein erster SNOB-Anruf", "en": "Your first SNOB call", "fr": "Votre premier appel SNOB"}, "cb_title": {"de": "Ruf SNOB an.<br>Jetzt.", "en": "Call SNOB.<br>Now.", "fr": "Appelez SNOB.<br>Maintenant."}, "call_btn": {"de": "CALL SNOB", "en": "CALL SNOB", "fr": "APPELER SNOB"}, "cb_note": {"de": "Kostenlos. Kein Pitch. Nur SNOB.", "en": "Free. No pitch. Just SNOB.", "fr": "Gratuit. Sans pitch. Juste SNOB."}, "calc_label": {"de": "Kalkulator", "en": "Calculator", "fr": "Calculateur"}, "calc_title": {"de": "Wie viel<br>brauchst du?", "en": "How much<br>do you need?", "fr": "Combien<br>vous faut-il?"}, "calc_sub": {"de": "Beweg den Slider.", "en": "Move the slider.", "fr": "Bougez le curseur."}, "calc_unit": {"de": "Call-<br>Minuten", "en": "Call<br>Minutes", "fr": "Minutes<br>d'appel"}, "cta_link": {"de": "Anfragen →", "en": "Enquire →", "fr": "Demander →"}, "pr_label": {"de": "Pricing", "en": "Pricing", "fr": "Tarifs"}, "pr_title": {"de": "Klar.<br>Direkt.", "en": "Clear.<br>Direct.", "fr": "Clair.<br>Direct."}, "pr_basic_t": {"de": "GoSTART", "en": "GoSTART", "fr": "GoSTART"}, "pr_full_t": {"de": "Go Full", "en": "Go Full", "fr": "Go Full"}, "pr_corp_t": {"de": "Corporate", "en": "Corporate", "fr": "Corporate"}, "pr_chf": {"de": "CHF / Monat", "en": "CHF / Month", "fr": "CHF / Mois"}, "pr_corp_num": {"de": "AUF<br>ANFRAGE", "en": "ON<br>REQUEST", "fr": "SUR<br>DEMANDE"}, "pr_corp_sub": {"de": "Individuell", "en": "Individual", "fr": "Individuel"}, "pr_btn_ask": {"de": "Anfragen", "en": "Get started", "fr": "Démarrer"}, "pr_btn_talk": {"de": "Gespräch", "en": "Talk", "fr": "Parler"}, "pr1_l1": {"de": "Core Setup", "en": "Core Setup", "fr": "Configuration principale"}, "pr1_l2": {"de": "AI Calls & Automation", "en": "AI Calls & Automation", "fr": "Appels IA & Automation"}, "pr1_l3": {"de": "DE / EN / FR", "en": "DE / EN / FR", "fr": "DE / EN / FR"}, "pr1_l4": {"de": "Dashboard & Analytics", "en": "Dashboard & Analytics", "fr": "Tableau de bord & Analyses"}, "pr1_l5": {"de": "Email Support", "en": "Email Support", "fr": "Support par email"}, "pr2_l1": {"de": "2000 Minuten inklusive", "en": "2000 minutes included", "fr": "2000 minutes incluses"}, "pr2_l2": {"de": "Erweiterte Flows", "en": "Advanced Flows", "fr": "Flux avancés"}, "pr2_l3": {"de": "CRM & Kalender", "en": "CRM & Calendar", "fr": "CRM & Calendrier"}, "pr2_l4": {"de": "Outbound Kampagnen", "en": "Outbound Campaigns", "fr": "Campagnes sortantes"}, "pr2_l5": {"de": "Priority Support", "en": "Priority Support", "fr": "Support prioritaire"}, "pr3_l1": {"de": "Alles aus Go Full", "en": "Everything in Go Full", "fr": "Tout du Go Full"}, "pr3_l2": {"de": "Individuelles Setup", "en": "Custom Setup", "fr": "Configuration sur mesure"}, "pr3_l3": {"de": "Mehrere Standorte", "en": "Multiple Locations", "fr": "Plusieurs sites"}, "pr3_l4": {"de": "API-Architektur", "en": "API Architecture", "fr": "Architecture API"}, "pr3_l5": {"de": "Account Manager", "en": "Account Manager", "fr": "Gestionnaire de compte"}, "cr_min1": {"de": "555 Minuten", "en": "555 Minutes", "fr": "555 Minutes"}, "cr_min2": {"de": "1'111 Minuten", "en": "1'111 Minutes", "fr": "1'111 Minutes"}, "cr_min3": {"de": "3'333 Minuten", "en": "3'333 Minutes", "fr": "3'333 Minutes"}, "cr_tag": {"de": "Priority · Low Latency", "en": "Priority · Low Latency", "fr": "Priorité · Faible latence"}, "cr_pop_txt": {"de": "Beliebt", "en": "Popular", "fr": "Populaire"}, "co_big": {"de": "goSNOB<br>ruft dich<br>an.", "en": "goSNOB<br>calls you<br>back.", "fr": "goSNOB<br>vous rappelle<br>maintenant."}, "co_sub": {"de": "Kein Sales-Pitch.<br>Innert 60 Sekunden.", "en": "No sales pitch.<br>Within 60 seconds.", "fr": "Pas de pitch.<br>En 60 secondes."}, "co_tel_lbl": {"de": "Direkt", "en": "Direct", "fr": "Direct"}, "fl_name": {"de": "Name", "en": "Name", "fr": "Nom"}, "fl_phone": {"de": "Telefon", "en": "Phone", "fr": "Téléphone"}, "fl_co": {"de": "Firma", "en": "Company", "fr": "Entreprise"}, "f_send": {"de": "SNOB ANRUFEN LASSEN", "en": "GET SNOB TO CALL", "fr": "FAITES APPELER SNOB"}, "f_ok_big": {"de": "Perfekt.<br>SNOB meldet<br>sich.", "en": "Perfect.<br>SNOB will<br>call you.", "fr": "Parfait.<br>SNOB va<br>vous appeler."}, "f_privacy": {"de": "Datenschutz", "en": "Privacy", "fr": "Confidentialité"}, "f_agb": {"de": "AGB", "en": "Terms", "fr": "CGV"}, "f_imprint": {"de": "Impressum", "en": "Imprint", "fr": "Mentions légales"}, "footer_spam": {"de": "Wir glauben nicht an E-Mail-Spam. Melde dich — wir wissen wer du bist.", "en": "We don't believe in email spam. Reach out — we know who you are.", "fr": "Nous ne croyons pas au spam. Contactez-nous — nous savons qui vous êtes."}, "chat_st": {"de": "Online", "en": "Online", "fr": "En ligne"}, "chat_ph": {"de": "Frag SNOB...", "en": "Ask SNOB...", "fr": "Demandez à SNOB..."}, "chat_placeholder": {"de": "Frag SNOB...", "en": "Ask SNOB...", "fr": "Demandez à SNOB..."}, "qb1": {"de": "Preise", "en": "Pricing", "fr": "Tarifs"}, "qb2": {"de": "AI Calls", "en": "AI Calls", "fr": "Appels IA"}, "qb3": {"de": "Demo", "en": "Demo", "fr": "Démo"}, "qb4": {"de": "Was ist SNOB?", "en": "What is SNOB?", "fr": "Qu'est-ce que SNOB?"}};;
+  "nav_cta": {"de": "Demo anfragen", "en": "Request demo", "fr": "Demander démo"}, "cb_label": {"de": "Dein erster SNOB-Anruf", "en": "Your first SNOB call", "fr": "Votre premier appel SNOB"}, "cb_title": {"de": "Ruf SNOB an.<br>Jetzt.", "en": "Call SNOB.<br>Now.", "fr": "Appelez SNOB.<br>Maintenant."}, "co_call_btn": {"de": "CALL SNOB", "en": "CALL SNOB", "fr": "APPELER SNOB"},
+  "call_btn": {"de": "CALL SNOB", "en": "CALL SNOB", "fr": "APPELER SNOB"}, "cb_note": {"de": "Kostenlos. Kein Pitch. Nur SNOB.", "en": "Free. No pitch. Just SNOB.", "fr": "Gratuit. Sans pitch. Juste SNOB."}, "calc_label": {"de": "Kalkulator", "en": "Calculator", "fr": "Calculateur"}, "calc_title": {"de": "Wie viel<br>brauchst du?", "en": "How much<br>do you need?", "fr": "Combien<br>vous faut-il?"}, "calc_sub": {"de": "Beweg den Slider.", "en": "Move the slider.", "fr": "Bougez le curseur."}, "calc_unit": {"de": "Call-<br>Minuten", "en": "Call<br>Minutes", "fr": "Minutes<br>d'appel"}, "cta_link": {"de": "Anfragen →", "en": "Enquire →", "fr": "Demander →"}, "pr_label": {"de": "Pricing", "en": "Pricing", "fr": "Tarifs"}, "pr_title": {"de": "Klar.<br>Direkt.", "en": "Clear.<br>Direct.", "fr": "Clair.<br>Direct."}, "pr_basic_t": {"de": "GoSTART", "en": "GoSTART", "fr": "GoSTART"}, "pr_full_t": {"de": "Go Full", "en": "Go Full", "fr": "Go Full"}, "pr_corp_t": {"de": "Corporate", "en": "Corporate", "fr": "Corporate"}, "pr_chf": {"de": "CHF / Monat", "en": "CHF / Month", "fr": "CHF / Mois"}, "pr_corp_num": {"de": "AUF<br>ANFRAGE", "en": "ON<br>REQUEST", "fr": "SUR<br>DEMANDE"}, "pr_corp_sub": {"de": "Individuell", "en": "Individual", "fr": "Individuel"}, "pr_btn_ask": {"de": "Anfragen", "en": "Get started", "fr": "Démarrer"}, "pr_btn_talk": {"de": "Gespräch", "en": "Talk", "fr": "Parler"}, "pr1_l1": {"de": "Core Setup", "en": "Core Setup", "fr": "Configuration principale"}, "pr1_l2": {"de": "AI Calls & Automation", "en": "AI Calls & Automation", "fr": "Appels IA & Automation"}, "pr1_l3": {"de": "DE / EN / FR", "en": "DE / EN / FR", "fr": "DE / EN / FR"}, "pr1_l4": {"de": "Dashboard & Analytics", "en": "Dashboard & Analytics", "fr": "Tableau de bord & Analyses"}, "pr1_l5": {"de": "Email Support", "en": "Email Support", "fr": "Support par email"}, "pr2_l1": {"de": "2000 Minuten inklusive", "en": "2000 minutes included", "fr": "2000 minutes incluses"}, "pr2_l2": {"de": "Erweiterte Flows", "en": "Advanced Flows", "fr": "Flux avancés"}, "pr2_l3": {"de": "CRM & Kalender", "en": "CRM & Calendar", "fr": "CRM & Calendrier"}, "pr2_l4": {"de": "Outbound Kampagnen", "en": "Outbound Campaigns", "fr": "Campagnes sortantes"}, "pr2_l5": {"de": "Priority Support", "en": "Priority Support", "fr": "Support prioritaire"}, "pr3_l1": {"de": "Alles aus Go Full", "en": "Everything in Go Full", "fr": "Tout du Go Full"}, "pr3_l2": {"de": "Individuelles Setup", "en": "Custom Setup", "fr": "Configuration sur mesure"}, "pr3_l3": {"de": "Mehrere Standorte", "en": "Multiple Locations", "fr": "Plusieurs sites"}, "pr3_l4": {"de": "API-Architektur", "en": "API Architecture", "fr": "Architecture API"}, "pr3_l5": {"de": "Account Manager", "en": "Account Manager", "fr": "Gestionnaire de compte"}, "cr_min1": {"de": "555 Minuten", "en": "555 Minutes", "fr": "555 Minutes"}, "cr_min2": {"de": "1'111 Minuten", "en": "1'111 Minutes", "fr": "1'111 Minutes"}, "cr_min3": {"de": "3'333 Minuten", "en": "3'333 Minutes", "fr": "3'333 Minutes"}, "cr_tag": {"de": "Priority · Low Latency", "en": "Priority · Low Latency", "fr": "Priorité · Faible latence"}, "cr_pop_txt": {"de": "Beliebt", "en": "Popular", "fr": "Populaire"}, "co_big": {"de": "Kein Sales-Pitch.<br>Ruf SNOB an.<br>Sag was du brauchst.", "en": "No sales pitch.<br>Call SNOB.<br>Tell us what you need.", "fr": "Pas de pitch.<br>Appelez SNOB.<br>Dites ce dont vous avez besoin."}, "co_sub": {"de": "Kein Sales-Pitch.<br>Innert 60 Sekunden.", "en": "No sales pitch.<br>Within 60 seconds.", "fr": "Pas de pitch.<br>En 60 secondes."}, "co_tel_lbl": {"de": "Direkt", "en": "Direct", "fr": "Direct"}, "fl_name": {"de": "Name", "en": "Name", "fr": "Nom"}, "fl_phone": {"de": "Telefon", "en": "Phone", "fr": "Téléphone"}, "fl_co": {"de": "Firma", "en": "Company", "fr": "Entreprise"}, "f_send": {"de": "SNOB ANRUFEN LASSEN", "en": "GET SNOB TO CALL", "fr": "FAITES APPELER SNOB"}, "f_ok_big": {"de": "Perfekt.<br>SNOB meldet<br>sich.", "en": "Perfect.<br>SNOB will<br>call you.", "fr": "Parfait.<br>SNOB va<br>vous appeler."}, "f_privacy": {"de": "Datenschutz", "en": "Privacy", "fr": "Confidentialité"}, "f_agb": {"de": "AGB", "en": "Terms", "fr": "CGV"}, "f_imprint": {"de": "Impressum", "en": "Imprint", "fr": "Mentions légales"}, "footer_spam": {"de": "Wir glauben nicht an E-Mail-Spam. Melde dich — wir wissen wer du bist.", "en": "We don't believe in email spam. Reach out — we know who you are.", "fr": "Nous ne croyons pas au spam. Contactez-nous — nous savons qui vous êtes."}, "chat_st": {"de": "Online", "en": "Online", "fr": "En ligne"}, "chat_ph": {"de": "Frag SNOB...", "en": "Ask SNOB...", "fr": "Demandez à SNOB..."}, "chat_placeholder": {"de": "Frag SNOB...", "en": "Ask SNOB...", "fr": "Demandez à SNOB..."}, "qb1": {"de": "Preise", "en": "Pricing", "fr": "Tarifs"}, "qb2": {"de": "AI Calls", "en": "AI Calls", "fr": "Appels IA"}, "qb3": {"de": "Demo", "en": "Demo", "fr": "Démo"}, "qb4": {"de": "Was ist SNOB?", "en": "What is SNOB?", "fr": "Qu'est-ce que SNOB?"}};;
 var currentLang = 'de';
 
 var CALC_MSGS = {
@@ -643,25 +666,19 @@ function openWidget() {
 }
 function openSnobWidget() { openWidget(); }
 
-// ── INTRO TYPEWRITER — multilingual ──
+// ── INTRO TYPEWRITER ──
 (function(){
-  document.body.style.overflow='hidden';
+  document.body.style.overflow = 'hidden';
 
-  // Each entry: array of [de, fr, en] — cycles through all 3 before moving on
   var MULTI = [
-    {langs:['goSNOB.ai','goSNOB.ai','goSNOB.ai'], c:'muted'},
-    {langs:null, c:'gap'},
-    {langs:['Initialisiere KI...','Initialisation IA...','Initializing AI...'], c:'muted'},
-    {langs:['Sprachmodell geladen.','Modèle chargé.','Language model loaded.'], c:'muted'},
-    {langs:['Verbindung aktiv.','Connexion active.','Connection active.'], c:'muted'},
-    {langs:null, c:'gap'},
-    {langs:['Bereit.','Prêt.','Ready.'], c:'pink'},
+    {langs:['Initialisiere KI...', 'Initialisation IA...', 'Initializing AI...'], c:'muted'},
+    {langs:['Bereit.', 'Prêt.', 'Ready.'], c:'pink'},
     {langs:null, c:'gap'},
     {langs:['goSNOB', 'goSNOB', 'goSNOB'], c:'big'},
   ];
 
   var container = document.getElementById('intro-out');
-  var totalDelay = 300;
+  var totalDelay = 200;
 
   function typeText(el, text, speed, onDone) {
     el.classList.add('show');
@@ -681,15 +698,41 @@ function openSnobWidget() { openWidget(); }
     }, speed);
   }
 
-  function eraseText(el, cur, onDone) {
-    // quick erase — just clear
+  function eraseAndType(el, text, speed, onDone) {
     setTimeout(function(){
       el.textContent = '';
-      var newCur = document.createElement('span');
-      newCur.className = 'cur';
-      el.appendChild(newCur);
-      onDone(newCur);
-    }, 180);
+      var cur = document.createElement('span');
+      cur.className = 'cur';
+      el.appendChild(cur);
+      var idx = 0;
+      var iv = setInterval(function(){
+        if(idx < text.length){
+          cur.insertAdjacentText('beforebegin', text[idx]);
+          idx++;
+        } else {
+          clearInterval(iv);
+          onDone(cur);
+        }
+      }, speed);
+    }, 120);
+  }
+
+  function processLine(el, langs, speed, isLast) {
+    // type DE
+    typeText(el, langs[0], speed, function(cur){
+      if(langs[0] === langs[1] && langs[1] === langs[2]){
+        // same in all langs (goSNOB)
+        if(isLast){ doFlashAndClose(el, cur); } else { cur.remove(); }
+        return;
+      }
+      // erase → FR
+      eraseAndType(el, langs[1], speed, function(cur2){
+        // erase → EN
+        eraseAndType(el, langs[2], speed, function(cur3){
+          if(isLast){ doFlashAndClose(el, cur3); } else { cur3.remove(); }
+        });
+      });
+    });
   }
 
   MULTI.forEach(function(entry, i){
@@ -702,49 +745,18 @@ function openSnobWidget() { openWidget(); }
     }
 
     container.appendChild(el);
-    var isBig = (entry.c === 'big');
-    var isLast = (i === MULTI.length - 1);
-    var speed = isBig ? 100 : 32;
-    var delay = totalDelay;
-    var langs = entry.langs; // [de, fr, en]
+    var isBig   = (entry.c === 'big');
+    var isLast  = (i === MULTI.length - 1);
+    var speed   = isBig ? 90 : 28;
+    var langs   = entry.langs;
+    var delay   = totalDelay;
 
-    // Calculate total time for this entry: de + erase + fr + erase + en
-    var deLen = langs[0].length, frLen = langs[1].length, enLen = langs[2].length;
-    var timeForEntry = (deLen + frLen + enLen) * speed + 180*2 + 300;
-    totalDelay += timeForEntry + 120;
+    // estimate time: 3 × longest word + 2 erases
+    var maxLen  = Math.max(langs[0].length, langs[1].length, langs[2].length);
+    totalDelay += maxLen * speed * 3 + 120 * 2 + 200;
 
     setTimeout(function(){
-      // Type DE
-      typeText(el, langs[0], speed, function(cur1){
-        if(langs[0] === langs[1] && langs[1] === langs[2]){
-          // all same (goSNOB) — just keep
-          if(isLast){
-            doFlashAndClose(el, cur1);
-          } else {
-            cur1.remove();
-          }
-          return;
-        }
-        // erase and type FR
-        setTimeout(function(){
-          eraseText(el, cur1, function(cur2){
-            typeText(el, langs[1], speed, function(cur3){
-              // erase and type EN
-              setTimeout(function(){
-                eraseText(el, cur3, function(cur4){
-                  typeText(el, langs[2], speed, function(cur5){
-                    if(isLast){
-                      doFlashAndClose(el, cur5);
-                    } else {
-                      cur5.remove();
-                    }
-                  });
-                });
-              }, 300);
-            });
-          });
-        }, 300);
-      });
+      processLine(el, langs, speed, isLast);
     }, delay);
   });
 
@@ -762,9 +774,9 @@ function openSnobWidget() { openWidget(); }
           intro.classList.add('hide');
           document.body.style.overflow = '';
           setTimeout(function(){ intro.remove(); }, 700);
-        }, 500);
+        }, 400);
       }
-    }, 180);
+    }, 160);
   }
 })();
 
