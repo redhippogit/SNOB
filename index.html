@@ -266,7 +266,6 @@ footer{padding:20px 40px;display:flex;justify-content:space-between;align-items:
 .f-links{display:flex;gap:16px;list-style:none;flex-wrap:wrap;}
 .f-links a{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#888;text-decoration:none;transition:color .2s;}
 .f-links a:hover{color:#0a0a0a;}
-.f-note{font-size:12px;color:#888;}
 .f-copy{font-size:12px;color:#777;line-height:1.9;text-align:right;}
 .f-copy a{color:#555 !important;}
 .f-founded{color:#999 !important;}
@@ -320,7 +319,7 @@ footer{padding:20px 40px;display:flex;justify-content:space-between;align-items:
       <li onclick="setLang('en')">EN</li>
       <li onclick="setLang('fr')">FR</li>
     </ul>
-    <a class="n-signin" href="https://app.gosnob.ai" target="_top" data-i="nav_signin">Anmelden</a>
+    <a class="n-signin" href="https://app.gosnob.ai" target="_blank" rel="noopener" data-i="nav_signin">Anmelden</a>
   </div>
 </nav>
 
@@ -633,7 +632,6 @@ footer{padding:20px 40px;display:flex;justify-content:space-between;align-items:
 
 <footer>
   <div class="f-logo">goSNOB<span class="logo-ai">.ai</span></div>
-  <span class="f-note" data-i="f_docs_note">Vollständige Version auf Anfrage erhältlich</span>
   <div class="f-copy">
     © 2026 goSNOB.ai · Basel · <a href="mailto:team@gosnob.com" style="color:#555;text-decoration:none;transition:color .2s;" onmouseover="this.style.color='#0a0a0a'" onmouseout="this.style.color='#555'">team@gosnob.com</a><br>
     <span class="f-founded" data-i="f_founded">Founded by Timothy Jordi &amp; Jan Mironiuk · Swiss Made</span>
@@ -1012,7 +1010,6 @@ var T = {
   f_priv:{de:'Datenschutz',en:'Privacy',fr:'Confidentialité'},
   f_agb:{de:'AGB',en:'T&C',fr:'CGV'},
   f_imp:{de:'Impressum',en:'Imprint',fr:'Mentions légales'},
-  f_docs_note:{de:'Vollständige Version auf Anfrage erhältlich',en:'Full version available on request',fr:'Version complète disponible sur demande'},
   f_founded:{de:'Founded by Timothy Jordi & Jan Mironiuk · Swiss Made',en:'Founded by Timothy Jordi & Jan Mironiuk · Swiss Made',fr:'Fondé par Timothy Jordi & Jan Mironiuk · Swiss Made'},
   chat_st:{de:'Online',en:'Online',fr:'En ligne'},
   chat_ph:{de:'Frag SNOB...',en:'Ask SNOB...',fr:'Demandez à SNOB...'},
@@ -1056,7 +1053,8 @@ var SF_LANG_CAROUSEL = [
 var SF_OUT_ACTIONS = {
   analytics:{de:'Flaggen · Eskalieren · Lernen',en:'Flag · Escalate · Learn',fr:'Signaler · Escalader · Apprendre'},
   storage:{de:'Strukturieren · Speichern · Senden',en:'Structure · Store · Send',fr:'Structurer · Stocker · Envoyer'},
-  appts:{de:'Buchen · Verschieben · Stornieren',en:'Book · Reschedule · Cancel',fr:'Réserver · Reporter · Annuler'}
+  appts:{de:'Buchen · Verschieben · Stornieren',en:'Book · Reschedule · Cancel',fr:'Réserver · Reporter · Annuler'},
+  sources:{de:'Integrieren · Synchronisieren · Aktualisieren',en:'Integrate · Synchronize · Update',fr:'Intégrer · Synchroniser · Actualiser'}
 };
 (function(){
   var idx=0;
@@ -1550,7 +1548,7 @@ function toggleChat(){
     analytics:{de:'Analytics',en:'Analytics',fr:'Analytique'},
     storage:{de:'Datenspeicher',en:'Data Storage',fr:'Stockage'},
     appts:{de:'Termine',en:'Appointments',fr:'Rendez-vous'},
-    sources:{de:'300+ Quellen',en:'300+ Sources',fr:'300+ Sources'},
+    sources:{de:'Integration',en:'Integration',fr:'Intégration'},
     knowledge:{de:'Wissensbibliothek',en:'Knowledge Library',fr:'Bibliothèque'},
     languages:{de:'100+ Sprachen',en:'100+ Languages',fr:'100+ Langues'},
     mode_lbl:{inbound:{de:'INBOUND',en:'INBOUND',fr:'ENTRANT'},outbound:{de:'OUTBOUND',en:'OUTBOUND',fr:'SORTANT'}}
@@ -1597,7 +1595,7 @@ function toggleChat(){
       {x:rx,y:H*0.44, lbl:LBL.storage,icn:'db',tip:'db'},
       {x:rx,y:H*0.68,lbl:LBL.appts,icn:'calendar',tip:'calendar'}
     ];
-    var sourcesNode = {x:snobX, y:H*0.10, r:smallR, lbl:LBL.sources, icn:'sources', tip:'sources'};
+    var sourcesNode = {x:snobX, y:H*0.16, r:smallR, lbl:LBL.sources, icn:'sources', tip:'sources'};
     var knowledgeNode = {x:snobX, y:H*0.86, r:smallR, lbl:LBL.knowledge, icn:'knowledge', tip:'knowledge'};
     var leadNodes = null;
     if(sfMode === 'outbound'){
@@ -1856,6 +1854,7 @@ function toggleChat(){
       }
       if(e>0.01) expandQueue.push({node:sn,e:e});
     });
+    drawTxt(layout.sourcesNode.x,layout.sourcesNode.y-layout.sourcesNode.r-12,gl(LBL.sources),10.5,'#c084dc');
     drawTxt(layout.knowledgeNode.x,layout.knowledgeNode.y+layout.knowledgeNode.r+20,gl(LBL.knowledge),10.5,'#c084dc');
 
     if(layout.leadNodes){
